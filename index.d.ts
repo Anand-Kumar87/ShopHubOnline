@@ -1,4 +1,17 @@
-import styled, { LibraryStyled, Styled, StyledInstance } from './constructors/styled';
-export * from './base';
-export { CSSKeyframes, CSSObject, CSSProp, CSSProperties, CSSPseudos, DataAttributes, DefaultTheme, ExecutionContext, ExecutionProps, FastOmit, IStyledComponent, IStyledComponentFactory, IStyledStatics, Interpolation, PolymorphicComponent, PolymorphicComponentProps, RuleSet, Runtime, StyleFunction, StyledObject, StyledOptions, SupportedHTMLElements, WebTarget, } from './types';
-export { LibraryStyled, Styled, StyledInstance, styled as default, styled };
+export type StyleTuple = [string, string]
+
+export interface Style {
+  [key: string]: string | number | Style
+}
+
+export function getPropertyName(name: string): string
+export function getStylesForProperty(
+  name: string,
+  value: string,
+  allowShorthand?: boolean
+): Style
+
+export default function transform(
+  styleTuples: StyleTuple[],
+  shorthandBlacklist?: string[]
+): Style
