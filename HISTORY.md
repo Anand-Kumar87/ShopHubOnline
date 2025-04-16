@@ -1,82 +1,80 @@
-2.0.1 / 2021-01-03
+2.0.0 - 2024-09-04
+==========
+ * Drop support for Node.js <18
+
+1.0.0 - 2024-09-04
+==========
+
+  * Drop support for Node.js below 0.8
+  * Fix: Ignore `If-Modified-Since` in the presence of `If-None-Match`, according to [spec](https://www.rfc-editor.org/rfc/rfc9110.html#section-13.1.3-5). Fixes [#35](https://github.com/jshttp/fresh/issues/35)
+
+0.5.2 / 2017-09-13
 ==================
 
-  * Fix returning values from `Object.prototype`
+  * Fix regression matching multiple ETags in `If-None-Match`
+  * perf: improve `If-None-Match` token parsing
 
-2.0.0 / 2020-04-19
+0.5.1 / 2017-09-11
 ==================
 
-  * Drop support for Node.js 0.6
-  * Fix messaging casing of `418 I'm a Teapot`
-  * Remove code 306
-  * Remove `status[code]` exports; use `status.message[code]`
-  * Remove `status[msg]` exports; use `status.code[msg]`
-  * Rename `425 Unordered Collection` to standard `425 Too Early`
-  * Rename `STATUS_CODES` export to `message`
-  * Return status message for `statuses(code)` when given code
+  * Fix handling of modified headers with invalid dates
+  * perf: improve ETag match loop
 
-1.5.0 / 2018-03-27
+0.5.0 / 2017-02-21
 ==================
 
-  * Add `103 Early Hints`
+  * Fix incorrect result when `If-None-Match` has both `*` and ETags
+  * Fix weak `ETag` matching to match spec
+  * perf: delay reading header values until needed
+  * perf: skip checking modified time if ETag check failed
+  * perf: skip parsing `If-None-Match` when no `ETag` header
+  * perf: use `Date.parse` instead of `new Date`
 
-1.4.0 / 2017-10-20
+0.4.0 / 2017-02-05
 ==================
 
-  * Add `STATUS_CODES` export
-
-1.3.1 / 2016-11-11
-==================
-
-  * Fix return type in JSDoc
-
-1.3.0 / 2016-05-17
-==================
-
-  * Add `421 Misdirected Request`
+  * Fix false detection of `no-cache` request directive
   * perf: enable strict mode
+  * perf: hoist regular expressions
+  * perf: remove duplicate conditional
+  * perf: remove unnecessary boolean coercions
 
-1.2.1 / 2015-02-01
+0.3.0 / 2015-05-12
 ==================
 
-  * Fix message for status 451
-    - `451 Unavailable For Legal Reasons`
+  * Add weak `ETag` matching support
 
-1.2.0 / 2014-09-28
+0.2.4 / 2014-09-07
 ==================
 
-  * Add `208 Already Repored`
-  * Add `226 IM Used`
-  * Add `306 (Unused)`
-  * Add `415 Unable For Legal Reasons`
-  * Add `508 Loop Detected`
+  * Support Node.js 0.6
 
-1.1.1 / 2014-09-24
+0.2.3 / 2014-09-07
 ==================
 
-  * Add missing 308 to `codes.json`
+  * Move repository to jshttp
 
-1.1.0 / 2014-09-21
+0.2.2 / 2014-02-19
 ==================
 
-  * Add `codes.json` for universal support
+  * Revert "Fix for blank page on Safari reload"
 
-1.0.4 / 2014-08-20
+0.2.1 / 2014-01-29
 ==================
 
-  * Package cleanup
+  * Fix for blank page on Safari reload
 
-1.0.3 / 2014-06-08
+0.2.0 / 2013-08-11
 ==================
 
-  * Add 308 to `.redirect` category
+  * Return stale for `Cache-Control: no-cache`
 
-1.0.2 / 2014-03-13
+0.1.0 / 2012-06-15
 ==================
 
-  * Add `.retry` category
+  * Add `If-None-Match: *` support
 
-1.0.1 / 2014-03-12
+0.0.1 / 2012-06-10
 ==================
 
   * Initial release
