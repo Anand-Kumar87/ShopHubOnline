@@ -1,152 +1,187 @@
-# Professional Login System with Backend Integration
+<div align="center">
+  <a href="https://www.styled-components.com">
+    <img alt="styled-components" src="https://raw.githubusercontent.com/styled-components/brand/master/styled-components.png" height="150px" />
+  </a>
+</div>
 
-A secure, modern login system with Gmail address validation, password strength requirements, and database integration. This system provides both frontend and backend components for a complete authentication solution.
+<br />
 
-## Features
+<div align="center">
+  <strong>Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps without stress 💅</strong>
+  <br />
+  <br />
+  <a href="https://www.npmjs.com/package/styled-components"><img src="https://www.styled-components.com/proxy/downloads.svg" alt="downloads: 600k/month"></a>
+  <a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/styled-components/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/styled-components/sponsors/badge.svg" /></a> <a href="https://discord.gg/hfGUrbrxaU">
+        <img alt="Discord" src="https://img.shields.io/discord/818449605409767454?logo=discord" /></a>
+  <a href="https://bundlephobia.com/result?p=styled-components" title="styled-components latest minified+gzip size"><img src="https://badgen.net/bundlephobia/minzip/styled-components" alt="gzip size"></a>
+  <a href="#alternative-installation-methods"><img src="https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20esm-green.svg" alt="module formats: umd, cjs, esm"></a>
+  <a href="https://codecov.io/gh/styled-components/styled-components"><img src="https://codecov.io/gh/styled-components/styled-components/coverage.svg?branch=main" alt="Code Coverage"></a>
+</div>
 
-### Frontend
-- Modern, responsive design
-- Tabbed interface for login and registration
-- Real-time password strength validation
-- Gmail address validation with regex
-- "Show Password" toggle functionality
-- User-friendly error messages
-- Loading indicators for async operations
-- Session persistence with "Remember Me" option
+---
 
-### Backend
-- RESTful API using Node.js and Express
-- JWT-based authentication with secure tokens
-- Password hashing with bcrypt
-- Input validation and sanitization
-- Protection against common vulnerabilities
-- MySQL/MongoDB database integration
+**Upgrading from v5?** See the [migration guide](https://styled-components.com/docs/faqs#what-do-i-need-to-do-to-migrate-to-v6).
 
-## Prerequisites
+Utilizing [tagged template literals](https://www.styled-components.com/docs/advanced#tagged-template-literals) (a recent addition to JavaScript) and the [power of CSS](https://www.styled-components.com/docs/api#supported-css), `styled-components` allow you to write actual CSS code to style your components. It also removes the mapping between components and styles – using components as a low-level styling construct could not be easier!
 
-- Node.js (v14+)
-- NPM or Yarn
-- MySQL or MongoDB
-- Modern web browser
-
-## Installation
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/login-system.git
-cd login-system
+```jsx
+const Button = styled.button`
+  color: grey;
+`;
 ```
 
-### 2. Install dependencies
-```bash
-npm install
+Alternatively, you may use [style objects](https://www.styled-components.com/docs/advanced#style-objects). This allows for easy porting of CSS from inline styles, while still supporting the more advanced styled-components capabilities like component selectors and media queries.
+
+```jsx
+const Button = styled.button({
+  color: 'grey',
+});
 ```
 
-### 3. Set up the database
-For MySQL:
-```bash
-mysql -u username -p < database-schema.sql
+Equivalent to:
+
+```jsx
+const Button = styled.button`
+  color: grey;
+`;
 ```
 
-For MongoDB, create a new database and collection with the provided schema.
+`styled-components` is compatible with both React (for web) and React Native – meaning it's the perfect choice even for truly universal apps! See the [documentation about React Native](https://www.styled-components.com/docs/basics#react-native) for more information.
 
-### 4. Configure environment variables
-Create a `.env` file in the root directory:
-```
-PORT=3000
-JWT_SECRET=your_secure_jwt_secret
-DB_HOST=localhost
-DB_USER=root
-DB_PASS=your_password
-DB_NAME=login_system
-```
+_Supported by [Front End Center](https://frontend.center). Thank you for making this possible!_
 
-### 5. Start the server
-```bash
-npm start
-```
+---
 
-### 6. Access the application
-Open `http://localhost:3000` in your browser.
+## [Docs](https://www.styled-components.com/docs)
 
-## Security Considerations
+**See the documentation at [styled-components.com/docs](https://www.styled-components.com/docs)** for more information about using `styled-components`!
 
-1. **Password Security**:
-   - Passwords are hashed using bcrypt
-   - Minimum requirements: 8 characters, one uppercase, one number, one special character
-   - Password strength is validated in real-time
+Quicklinks to some of the most-visited pages:
 
-2. **Authentication**:
-   - JWT (JSON Web Token) for secure authentication
-   - Token expiration to prevent long-lived sessions
-   - HTTP-only cookies option for enhanced security
+- [**Getting started**](https://www.styled-components.com/docs/basics)
+- [API Reference](https://styled-components.com/docs/api)
+- [Theming](https://www.styled-components.com/docs/advanced#theming)
+- [Server-side rendering](https://www.styled-components.com/docs/advanced#server-side-rendering)
+- [Tagged Template Literals explained](https://www.styled-components.com/docs/advanced#tagged-template-literals)
 
-3. **Data Validation**:
-   - Server-side validation using express-validator
-   - Client-side validation for better UX
-   - SQL/NoSQL injection prevention
+---
 
-4. **Rate Limiting**:
-   - Protection against brute force attacks
-   - IP-based rate limiting for login attempts
+## Example
 
-5. **HTTPS**:
-   - In production, always use HTTPS
-   - Enable HSTS header for added security
+```jsx
+import React from 'react';
 
-## API Endpoints
+import styled from 'styled-components';
 
-### Authentication
-- `POST /api/register` - Register a new user
-- `POST /api/login` - Authenticate a user
-- `GET /api/profile` - Get the current user's profile (protected)
+// Create a <Title> react component that renders an <h1> which is
+// centered, palevioletred and sized at 1.5em
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;
 
-## Database Schema
+// Create a <Wrapper> react component that renders a <section> with
+// some padding and a papayawhip background
+const Wrapper = styled.section`
+  padding: 4em;
+  background: papayawhip;
+`;
 
-### Users Table (MySQL)
-```sql
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-```
-
-### Users Collection (MongoDB)
-```json
-{
-  "_id": ObjectId,
-  "name": String,
-  "email": String,
-  "password": String,
-  "created_at": Date,
-  "updated_at": Date
+function MyUI() {
+  return (
+    // Use them like any other React component – except they're styled!
+    <Wrapper>
+      <Title>Hello World, this is my first styled component!</Title>
+    </Wrapper>
+  );
 }
 ```
 
-## Demo Credentials
+This is what you'll see in your browser:
 
-For testing purposes only:
-- Email: demo@gmail.com
-- Password: Password1!
+<div align="center">
+  <a href="https://styled-components.com">
+    <img alt="Screenshot of the above code ran in a browser" src="http://i.imgur.com/wUJpcjY.jpg" />
+  </a>
+</div>
 
-## Production Deployment
+---
 
-Before deploying to production:
-1. Generate a strong, unique JWT secret
-2. Set appropriate CORS headers
-3. Configure rate limiters
-4. Set up proper error logging
-5. Enable HTTPS
-6. Consider adding 2FA for enhanced security
+## Looking for v5?
 
-## License
+The `main` branch is for the most-current version of styled-components, currently v6. For changes targeting v5, please point your PRs at the `legacy-v5` branch.
 
-MIT
+---
+
+## Built with `styled-components`
+
+A lot of hard work goes into community libraries, projects, and guides. A lot of them make it easier to get started or help you with your next project! There are also a whole lot of interesting apps and sites that people have built using styled-components.
+
+Make sure to head over to [awesome-styled-components](https://github.com/styled-components/awesome-styled-components) to see them all! And please contribute and add your own work to the list so others can find it.
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. 
+If you want to contribute to `styled-components` please see our [contributing and community guidelines](./CONTRIBUTING.md), they'll help you get set up locally and explain the whole process.
+
+Please also note that all repositories under the `styled-components` organization follow our [Code of Conduct](./CODE_OF_CONDUCT.md), make sure to review and follow it.
+
+---
+
+## Badge
+
+Let everyone know you're using _styled-components_ → [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components)
+
+```md
+[![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components)
+```
+
+---
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/styled-components/styled-components/graphs/contributors"><img src="https://opencollective.com/styled-components/contributors.svg?width=890" /></a>
+
+---
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/styled-components#backer)]
+
+<a href="https://opencollective.com/styled-components#backers" target="_blank"><img src="https://opencollective.com/styled-components/backers.svg?width=890"></a>
+
+---
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/styled-components#sponsor)]
+
+<a href="https://opencollective.com/styled-components/sponsor/0/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/1/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/2/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/3/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/4/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/5/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/6/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/7/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/8/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/styled-components/sponsor/9/website" target="_blank"><img src="https://opencollective.com/styled-components/sponsor/9/avatar.svg"></a>
+
+---
+
+## License
+
+Licensed under the MIT License, Copyright © 2016-present Glen Maddern and Maximilian Stoiber.
+
+See [LICENSE](./LICENSE) for more information.
+
+---
+
+## Acknowledgements
+
+This project builds on a long line of earlier work by clever folks all around the world. We'd like to thank Charlie Somerville, Nik Graf, Sunil Pai, Michael Chan, Andrey Popp, Jed Watson & Andrey Sitnik who contributed ideas, code or inspiration.
+
+Special thanks to [@okonet](https://github.com/okonet) for the fantastic logo.
