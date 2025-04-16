@@ -1,115 +1,117 @@
-# css-to-react-native
+# fresh
 
-Converts CSS text to a React Native stylesheet object.
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Node.js Version][node-version-image]][node-version-url]
+[![Build Status][ci-image]][ci-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 
-[Try it here](https://csstox.surge.sh)
+HTTP response freshness testing
 
-```css
-font-size: 18px;
-line-height: 24px;
-color: red;
+## Installation
+
+This is a [Node.js](https://nodejs.org/en/) module available through the
+[npm registry](https://www.npmjs.com/). Installation is done using the
+[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+
+```
+$ npm install fresh
 ```
 
+## API
+
 ```js
-{
-  fontSize: 18,
-  lineHeight: 24,
-  color: 'red',
+var fresh = require('fresh')
+```
+
+### fresh(reqHeaders, resHeaders)
+
+Check freshness of the response using request and response headers.
+
+When the response is still "fresh" in the client's cache `true` is
+returned, otherwise `false` is returned to indicate that the client
+cache is now stale and the full response should be sent.
+
+When a client sends the `Cache-Control: no-cache` request header to
+indicate an end-to-end reload request, this module will return `false`
+to make handling these requests transparent.
+
+## Known Issues
+
+This module is designed to only follow the HTTP specifications, not
+to work-around all kinda of client bugs (especially since this module
+typically does not receive enough information to understand what the
+client actually is).
+
+There is a known issue that in certain versions of Safari, Safari
+will incorrectly make a request that allows this module to validate
+freshness of the resource even when Safari does not have a
+representation of the resource in the cache. The module
+[jumanji](https://www.npmjs.com/package/jumanji) can be used in
+an Express application to work-around this issue and also provides
+links to further reading on this Safari bug.
+
+## Example
+
+### API usage
+
+<!-- eslint-disable no-redeclare -->
+
+```js
+var reqHeaders = { 'if-none-match': '"foo"' }
+var resHeaders = { etag: '"bar"' }
+fresh(reqHeaders, resHeaders)
+// => false
+
+var reqHeaders = { 'if-none-match': '"foo"' }
+var resHeaders = { etag: '"foo"' }
+fresh(reqHeaders, resHeaders)
+// => true
+```
+
+### Using with Node.js http server
+
+```js
+var fresh = require('fresh')
+var http = require('http')
+
+var server = http.createServer(function (req, res) {
+  // perform server logic
+  // ... including adding ETag / Last-Modified response headers
+
+  if (isFresh(req, res)) {
+    // client has a fresh copy of resource
+    res.statusCode = 304
+    res.end()
+    return
+  }
+
+  // send the resource
+  res.statusCode = 200
+  res.end('hello, world!')
+})
+
+function isFresh (req, res) {
+  return fresh(req.headers, {
+    etag: res.getHeader('ETag'),
+    'last-modified': res.getHeader('Last-Modified')
+  })
 }
+
+server.listen(3000)
 ```
-
-Converts all number-like values to numbers, and string-like to strings.
-
-Automatically converts indirect values to their React Native equivalents.
-
-```css
-text-shadow-offset: 10px 5px;
-font-variant: small-caps;
-transform: translate(10px, 5px) scale(5);
-```
-
-```js
-{
-  textShadowOffset: { width: 10, height: 5 },
-  fontVariant: ['small-caps'],
-  // Fixes backwards transform order
-  transform: [
-    { translateY: 5 },
-    { translateX: 10 },
-    { scale: 5 },
-  ]
-}
-```
-
-Also allows shorthand values.
-
-```css
-font: bold 14px/16px "Helvetica";
-margin: 5px 7px 2px;
-```
-
-```js
-{
-  fontFamily: 'Helvetica',
-  fontSize: 14,
-  fontWeight: 'bold',
-  fontStyle: 'normal',
-  fontVariant: [],
-  lineHeight: 16,
-  marginTop: 5,
-  marginRight: 7,
-  marginBottom: 2,
-  marginLeft: 7,
-}
-```
-
-Shorthands will only accept values that are supported in React, so `background` will only accept a colour, `backgroundColor`
-
-There is also support for the `box-shadow` shorthand, and this converts into `shadow-` properties. Note that these only work on iOS.
-
-#### Shorthand Notes
-
-`border{Top,Right,Bottom,Left}` shorthands are not supported, because `borderStyle` cannot be applied to individual border sides.
-
-# API
-
-The API is mostly for implementors. However, the main API may be useful for non-implementors. The main API is an array of `[property, value]` tuples.
-
-```js
-import transform from 'css-to-react-native';
-// or const transform = require('css-to-react-native').default;
-
-transform([
-  ['font', 'bold 14px/16px "Helvetica"'],
-  ['margin', '5px 7px 2px'],
-  ['border-left-width', '5px'],
-]); // => { fontFamily: 'Helvetica', ... }
-```
-
-We don't provide a way to get these style tuples in this library, so you'll need to do that yourself. I expect most people will use postCSS or another CSS parser. You should try avoid getting these with `string.split`, as that has a lot of edge cases (colons and semi-colons appearing in comments etc.)
-
-For implementors, there is also a few extra APIs available.
-
-These are for specific use-cases, and most people should just be using the API above.
-
-```js
-import { getPropertyName, getStylesForProperty } from 'css-to-react-native';
-
-getPropertyName('border-width'); // => 'borderWidth'
-getStylesForProperty('borderWidth', '1px 0px 2px 0px'); // => { borderTopWidth: 1, ... }
-```
-
-Should you wish to opt-out of transforming certain shorthands, an array of property names in camelCase can be passed as a second argument to `transform`.
-
-```js
-transform([['border-radius', '50px']], ['borderRadius']);
-// { borderRadius: 50 } rather than { borderTopLeft: ... }
-```
-
-This can also be done by passing a third argument, `false` to `getStylesForProperty`.
 
 ## License
 
-Licensed under the MIT License, Copyright © 2019 Krister Kari, Jacob Parker, and Maximilian Stoiber.
+[MIT](LICENSE)
 
-See [LICENSE.md](./LICENSE.md) for more information.
+[ci-image]: https://img.shields.io/github/workflow/status/jshttp/fresh/ci/master?label=ci
+[ci-url]: https://github.com/jshttp/fresh/actions/workflows/ci.yml
+[npm-image]: https://img.shields.io/npm/v/fresh.svg
+[npm-url]: https://npmjs.org/package/fresh
+[node-version-image]: https://img.shields.io/node/v/fresh.svg
+[node-version-url]: https://nodejs.org/en/
+[coveralls-image]: https://img.shields.io/coveralls/jshttp/fresh/master.svg
+[coveralls-url]: https://coveralls.io/r/jshttp/fresh?branch=master
+[downloads-image]: https://img.shields.io/npm/dm/fresh.svg
+[downloads-url]: https://npmjs.org/package/fresh
