@@ -1,0 +1,19 @@
+# Redirect old login page to new login system
+Redirect 301 /login.html /login-system.html
+
+# Ensure proper MIME types
+AddType text/html .html
+AddType application/javascript .js
+AddType text/css .css
+
+# Prevent caching for login pages
+<Files "login*.html">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires 0
+</Files>
+
+# Enable CORS
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type, Authorization" 

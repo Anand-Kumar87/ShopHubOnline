@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - ShopHub E-Commerce</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --accent-color: #f59e0b;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .container-custom {
+      max-width: 80rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container-custom {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .container-custom {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 2rem;
+      padding-bottom: 3rem;
+    }
+    .timeline-item:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: #e5e7eb;
+    }
+    .timeline-item:after {
+      content: '';
+      position: absolute;
+      left: -0.375rem;
+      top: 0.125rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+    }
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+    .timeline-item:last-child:before {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md py-4">
+    <div class="container-custom">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="E:\Project Ecommerce\index.html" class="text-2xl font-bold text-blue-600">
+          ShopHub
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="E:\Project Ecommerce\index.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Home</a>
+          <a href="E:\Project Ecommerce\shop.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Shop</a>
+          <a href="E:\Project Ecommerce\categories.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Categories</a>
+          <a href="E:\Project Ecommerce\about.html" class="font-medium text-gray-900 hover:text-blue-600 transition">About</a>
+          <a href="E:\Project Ecommerce\contact.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Contact</a>
+        </nav>
+        
+        <!-- User Actions -->
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition" id="search-button">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+          <a href="account.html" class="p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-user text-xl"></i>
+          </a>
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition relative" id="cart-button">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="cart-count absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+          </button>
+          <button class="md:hidden p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center">
+    <div class="w-full max-w-2xl mx-auto p-4">
+      <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        <div class="p-4 relative">
+          <h3 class="text-lg font-semibold mb-3">Search Products</h3>
+          <button id="close-search" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+            <i class="fas fa-times"></i>
+          </button>
+          <form id="search-form" class="relative">
+            <input 
+              type="text" 
+              id="search-input" 
+              placeholder="Search for products..."
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+            <button type="submit" class="absolute right-3 top-3 text-gray-500">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <div id="search-results" class="mt-4 max-h-80 overflow-y-auto">
+            <!-- Search results will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="animate-fade-in">
+    <!-- About Hero Section -->
+    <div class="relative h-[400px] overflow-hidden">
+      <div class="absolute inset-0">
+        <img 
+          src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" 
+          alt="Team working" 
+          class="w-full h-full object-cover"
+        >
+        <div class="absolute inset-0 bg-black/60"></div>
+      </div>
+      
+      <!-- Content -->
+      <div class="relative z-20 flex items-center justify-center h-full">
+        <div class="container-custom text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">About ShopHub</h1>
+          <p class="text-xl text-white/90 max-w-3xl mx-auto">
+            Learn more about our story, mission, and the team behind your favorite online store.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Our Story Section -->
+    <div class="container-custom py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl font-bold mb-6 text-gray-900">Our Story</h2>
+          <p class="text-gray-700 mb-4">
+            Founded in 2018, ShopHub started with a simple mission: to create an online shopping experience that puts customers first. What began as a small operation in a garage has grown into a thriving e-commerce platform with millions of satisfied customers worldwide.
+          </p>
+          <p class="text-gray-700 mb-4">
+            Our journey hasn't always been easy, but our dedication to quality, innovation, and customer satisfaction has remained unwavering. Today, we're proud to offer a diverse range of products from trusted brands and emerging creators alike.
+          </p>
+          <p class="text-gray-700">
+            As we continue to grow, we remain committed to our core values of integrity, sustainability, and excellence in everything we do. We believe that shopping online should be easy, enjoyable, and accessible to everyone.
+          </p>
+        </div>
+        <div class="lg:pl-8">
+          <img 
+            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+            alt="Team meeting" 
+            class="rounded-lg shadow-lg w-full"
+          >
+        </div>
+      </div>
+    </div>
+    
+    <!-- Our Mission Section -->
+    <div class="bg-blue-600 text-white py-16">
+      <div class="container-custom">
+        <div class="text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
+          <p class="text-xl mb-8">
+            "To provide a seamless, personalized shopping experience that connects people with quality products they love, while fostering a community of trust, innovation, and sustainability."
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center bg-white/20 rounded-full p-4 mb-4">
+                <i class="fas fa-hand-holding-heart text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">Customer First</h3>
+              <p class="text-white/80">
+                We prioritize customer satisfaction in everything we do, ensuring a shopping experience that exceeds expectations.
+              </p>
+            </div>
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center bg-white/20 rounded-full p-4 mb-4">
+                <i class="fas fa-leaf text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">Sustainability</h3>
+              <p class="text-white/80">
+                We're committed to sustainable practices that reduce our environmental footprint and promote ethical sourcing.
+              </p>
+            </div>
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center bg-white/20 rounded-full p-4 mb-4">
+                <i class="fas fa-lightbulb text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">Innovation</h3>
+              <p class="text-white/80">
+                We continuously strive to innovate and improve our platform, making online shopping more intuitive and enjoyable.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Company Timeline -->
+    <div class="container-custom py-16">
+      <h2 class="text-3xl font-bold mb-10 text-center text-gray-900">Our Journey</h2>
+      
+      <div class="max-w-3xl mx-auto">
+        <div class="timeline-item">
+          <h3 class="text-xl font-semibold mb-2">2018: The Beginning</h3>
+          <p class="text-gray-700">
+            ShopHub was founded by a group of e-commerce enthusiasts with a vision to revolutionize online shopping. Started operations in a small garage with just 5 team members.
+          </p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3 class="text-xl font-semibold mb-2">2019: First Milestone</h3>
+          <p class="text-gray-700">
+            Reached 10,000 active users and expanded our product catalog to include over 5,000 items. Moved to our first official office space.
+          </p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3 class="text-xl font-semibold mb-2">2020: Rapid Growth</h3>
+          <p class="text-gray-700">
+            Experienced 300% growth despite global challenges. Launched our mobile app and implemented a new customer-centric approach to service.
+          </p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3 class="text-xl font-semibold mb-2">2021: International Expansion</h3>
+          <p class="text-gray-700">
+            Expanded operations to international markets, serving customers in over 50 countries. Established partnerships with major global brands.
+          </p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3 class="text-xl font-semibold mb-2">2022: Sustainability Initiative</h3>
+          <p class="text-gray-700">
+            Launched our sustainability program, including eco-friendly packaging and carbon-neutral shipping options. Reached 1 million active users.
+          </p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3 class="text-xl font-semibold mb-2">2023: Where We Are Today</h3>
+          <p class="text-gray-700">
+            Now a team of 200+ dedicated professionals, serving millions of customers worldwide with a catalog of over 100,000 quality products.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Meet the Team -->
+    <div class="bg-gray-100 py-16">
+      <div class="container-custom">
+        <h2 class="text-3xl font-bold mb-10 text-center text-gray-900">Meet Our Leadership Team</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Team Member 1 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+            <img 
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+              alt="CEO" 
+              class="w-full aspect-square object-cover"
+            >
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-1">John Doe</h3>
+              <p class="text-blue-600 font-medium mb-3">CEO & Founder</p>
+              <p class="text-gray-600 text-sm mb-4">
+                With over 15 years of experience in e-commerce, John leads our vision and strategic direction.
+              </p>
+              <div class="flex space-x-3">
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Team Member 2 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+            <img 
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+              alt="COO" 
+              class="w-full aspect-square object-cover"
+            >
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-1">Sarah Johnson</h3>
+              <p class="text-blue-600 font-medium mb-3">COO</p>
+              <p class="text-gray-600 text-sm mb-4">
+                Sarah oversees our day-to-day operations and ensures exceptional service delivery to all customers.
+              </p>
+              <div class="flex space-x-3">
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Team Member 3 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+            <img 
+              src="https://images.unsplash.com/photo-1562788869-4ed32648eb72?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+              alt="CTO" 
+              class="w-full aspect-square object-cover"
+            >
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-1">Michael Chen</h3>
+              <p class="text-blue-600 font-medium mb-3">CTO</p>
+              <p class="text-gray-600 text-sm mb-4">
+                Michael leads our technology team, driving innovation and ensuring a seamless shopping experience.
+              </p>
+              <div class="flex space-x-3">
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Team Member 4 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+            <img 
+              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+              alt="CMO" 
+              class="w-full aspect-square object-cover"
+            >
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-1">Emily Rodriguez</h3>
+              <p class="text-blue-600 font-medium mb-3">CMO</p>
+              <p class="text-gray-600 text-sm mb-4">
+                Emily crafts our marketing strategy, helping connect customers with products they'll love.
+              </p>
+              <div class="flex space-x-3">
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- CTA Section -->
+    <div class="bg-gray-900 text-white py-16">
+      <div class="container-custom text-center">
+        <h2 class="text-3xl font-bold mb-6">Join the ShopHub Community</h2>
+        <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          Be part of our growing community of shoppers, sellers, and partners. Start exploring the best products at competitive prices today.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/shop" class="btn-primary text-lg px-8 py-3">Start Shopping</a>
+          <a href="/contact" class="bg-transparent border-2 border-white text-white font-semibold px-8 py-3 rounded hover:bg-white hover:text-gray-900 transition text-lg">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="container-custom">
+      <!-- Footer Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <!-- Company Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">ShopHub</h3>
+          <p class="text-gray-400 mb-4">
+            Your one-stop destination for all your shopping needs. Quality products, competitive prices, and exceptional service.
+          </p>
+          <div class="flex space-x-4">
+            <a href="https://www.facebook.com/share/12LUwef9YZU/?mibextid=wwXIfr" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/sole_style_shoes/" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\index.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="E:\Project Ecommerce\shop.html" class="text-gray-400 hover:text-white transition">Shop</a></li>
+            <li><a href="E:\Project Ecommerce\categories.html" class="text-gray-400 hover:text-white transition">Categories</a></li>
+            <li><a href="E:\Project Ecommerce\about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+            <li><a href="E:\Project Ecommerce\contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Customer Service -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Customer Service</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\account.html" class="text-gray-400 hover:text-white transition">My Account</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Orders & Returns</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Support Center</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
+              <span class="text-gray-400">F-3, Mandelia Road, Kamla Nagar, New Delhi 110007</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-3 text-gray-400"></i>
+              <span class="text-gray-400">+91 8726540277</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-gray-400"></i>
+              <span class="text-gray-400">support@shophub.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="text-center text-gray-500 text-sm pt-8 border-t border-gray-800">
+        <p>&copy; 2023 ShopHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add search functionality
+      const searchButton = document.getElementById('search-button');
+      const searchOverlay = document.getElementById('search-overlay');
+      const closeSearch = document.getElementById('close-search');
+      const searchForm = document.getElementById('search-form');
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      
+      // Toggle search overlay
+      if (searchButton) {
+        searchButton.addEventListener('click', function() {
+          searchOverlay.classList.remove('hidden');
+          setTimeout(() => {
+            searchInput.focus();
+          }, 100);
+        });
+      }
+      
+      if (closeSearch) {
+        closeSearch.addEventListener('click', function() {
+          searchOverlay.classList.add('hidden');
+        });
+      }
+      
+      // Close search when clicking outside
+      searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) {
+          searchOverlay.classList.add('hidden');
+        }
+      });
+      
+      // Handle search
+      if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          performSearch();
+        });
+        
+        // Also search as you type
+        searchInput.addEventListener('input', debounce(performSearch, 300));
+      }
+      
+      function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        searchResults.innerHTML = '';
+        
+        if (query.length < 2) {
+          searchResults.innerHTML = '<p class="text-gray-500 text-center py-4">Please enter at least 2 characters to search</p>';
+          return;
+        }
+        
+        // For this demo, let's redirect to shop.html with search query
+        searchResults.innerHTML = `
+          <div class="p-4 text-center">
+            <p class="mb-4">Press Enter or click below to search products.</p>
+            <a href="shop.html?search=${encodeURIComponent(query)}" class="btn-primary inline-block bg-blue-600 px-4 py-2 rounded text-white">
+              Search for "${query}" in shop
+            </a>
+          </div>
+        `;
+      }
+      
+      // Utility function to debounce search input
+      function debounce(func, delay) {
+        let timeout;
+        return function() {
+          const context = this;
+          const args = arguments;
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+      }
+    });
+  </script>
+</body>
+</html> 

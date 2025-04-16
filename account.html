@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account - ShopHub E-Commerce</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --accent-color: #f59e0b;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .container-custom {
+      max-width: 80rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container-custom {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .container-custom {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .input-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      transition: all 0.3s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .tab-active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    .tab {
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      border-radius: 0.375rem;
+      border: 1px solid #e5e7eb;
+    }
+    .tab:hover:not(.tab-active) {
+      background-color: #f9fafb;
+      border-color: #d1d5db;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md py-4">
+    <div class="container-custom">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="E:\Project Ecommerce\index.html" class="text-2xl font-bold text-blue-600"> 
+          ShopHub
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="E:\Project Ecommerce\index.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Home</a>
+          <a href="E:\Project Ecommerce\shop.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Shop</a>
+          <a href="E:\Project Ecommerce\categories.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Categories</a>
+          <a href="E:\Project Ecommerce\about.html" class="font-medium text-gray-500 hover:text-blue-600 transition">About</a>
+          <a href="E:\Project Ecommerce\contact.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Contact</a>
+        </nav>
+        
+        <!-- User Actions -->
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+          <a href="account.html" class="p-2 text-blue-600 hover:text-blue-800 transition">
+            <i class="fas fa-user text-xl"></i>
+          </a>
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition relative">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+          </button>
+          <button class="md:hidden p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="animate-fade-in">
+    <!-- Account Page Header -->
+    <div class="bg-gray-900 text-white py-12">
+      <div class="container-custom">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 class="text-3xl font-bold mb-2">My Account</h1>
+            <p class="text-gray-300">Welcome back, John Doe</p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <button id="signOutButton" class="btn-primary">
+              <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Account Content -->
+    <div class="container-custom py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar Navigation -->
+        <div class="col-span-1">
+          <div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+            <div class="space-y-2">
+              <button id="dashboard-tab" class="w-full text-left tab tab-active">
+                <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+              </button>
+              <button id="orders-tab" class="w-full text-left tab">
+                <i class="fas fa-shopping-bag mr-2"></i> Orders
+              </button>
+              <button id="downloads-tab" class="w-full text-left tab">
+                <i class="fas fa-download mr-2"></i> Downloads
+              </button>
+              <button id="addresses-tab" class="w-full text-left tab">
+                <i class="fas fa-map-marker-alt mr-2"></i> Addresses
+              </button>
+              <button id="payment-tab" class="w-full text-left tab">
+                <i class="fas fa-credit-card mr-2"></i> Payment Methods
+              </button>
+              <button id="account-tab" class="w-full text-left tab">
+                <i class="fas fa-user-edit mr-2"></i> Account Details
+              </button>
+              <button id="wishlist-tab" class="w-full text-left tab">
+                <i class="fas fa-heart mr-2"></i> Wishlist
+              </button>
+              <a href="admin.html" class="w-full text-left tab flex items-center">
+                <i class="fas fa-cog mr-2"></i> Admin Dashboard
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="col-span-1 lg:col-span-3">
+          <!-- Dashboard Tab -->
+          <div id="dashboard-content" class="tab-content">
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+              <h2 class="text-xl font-semibold mb-4">Account Overview</h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                  <div class="text-blue-600 mb-2">
+                    <i class="fas fa-shopping-bag text-3xl"></i>
+                  </div>
+                  <div id="total-orders" class="text-2xl font-bold mb-1">0</div>
+                  <div class="text-sm text-gray-600">Orders</div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                  <div class="text-blue-600 mb-2">
+                    <i class="fas fa-heart text-3xl"></i>
+                  </div>
+                  <div id="wishlist-count" class="text-2xl font-bold mb-1">0</div>
+                  <div class="text-sm text-gray-600">Wishlist Items</div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 text-center">
+                  <div class="text-blue-600 mb-2">
+                    <i class="fas fa-tag text-3xl"></i>
+                  </div>
+                  <div id="coupons-count" class="text-2xl font-bold mb-1">0</div>
+                  <div class="text-sm text-gray-600">Available Coupons</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Recent Orders</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">View All</a>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead>
+                    <tr>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-orders" class="bg-white divide-y divide-gray-200">
+                    <!-- Orders will be populated here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-tag text-blue-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-blue-800">Special Offers</h3>
+                  <p class="mt-1 text-blue-700">Use code <span class="font-semibold">SUMMER20</span> for 20% off on summer collection.</p>
+                  <p class="mt-2 text-blue-700">Offer valid until July 31, 2023.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Account Details Tab (Initially Hidden) -->
+          <div id="account-content" class="tab-content" style="display: none;">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <h2 class="text-xl font-semibold mb-6">Account Details</h2>
+              <form>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" value="Anand" required class="input-field">
+                  </div>
+                  <div>
+                    <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" value="Doe" required class="input-field">
+                  </div>
+                </div>
+                
+                <div class="mb-6">
+                  <label for="displayName" class="block text-sm font-medium text-gray-700 mb-2">Display Name *</label>
+                  <input type="text" id="displayName" name="displayName" value="AND" required class="input-field">
+                  <p class="mt-1 text-sm text-gray-500">This will be how your name appears in the account section and in reviews.</p>
+                </div>
+                
+                <div class="mb-6">
+                  <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                  <input type="email" id="email" name="email" value="john.doe@example.com" required class="input-field">
+                </div>
+                
+                <h3 class="text-lg font-medium text-gray-900 mt-8 mb-4">Address Information</h3>
+                
+                <div class="mb-6">
+                  <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Street Address *</label>
+                  <input type="text" id="address" name="address" class="input-field">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label for="city" class="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                    <input type="text" id="city" name="city" class="input-field">
+                  </div>
+                  <div>
+                    <label for="state" class="block text-sm font-medium text-gray-700 mb-2">State/Province *</label>
+                    <input type="text" id="state" name="state" class="input-field">
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label for="postalCode" class="block text-sm font-medium text-gray-700 mb-2">Postal Code *</label>
+                    <input type="text" id="postalCode" name="postalCode" class="input-field">
+                  </div>
+                  <div>
+                    <label for="country" class="block text-sm font-medium text-gray-700 mb-2">Country *</label>
+                    <input type="text" id="country" name="country" class="input-field">
+                  </div>
+                </div>
+                
+                <h3 class="text-lg font-medium text-gray-900 mt-8 mb-4">Password Change</h3>
+                
+                <div class="mb-6">
+                  <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-2">Current Password (leave blank to leave unchanged)</label>
+                  <input type="password" id="currentPassword" name="currentPassword" class="input-field">
+                </div>
+                
+                <div class="mb-6">
+                  <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-2">New Password (leave blank to leave unchanged)</label>
+                  <input type="password" id="newPassword" name="newPassword" class="input-field">
+                </div>
+                
+                <div class="mb-6">
+                  <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                  <input type="password" id="confirmPassword" name="confirmPassword" class="input-field">
+                </div>
+                
+                <button type="submit" class="btn-primary py-2 px-4">Save Changes</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Payment Methods Tab -->
+          <div id="payment-content" class="tab-content hidden">
+            <div class="bg-white shadow rounded-lg p-6">
+              <h2 class="text-xl font-semibold mb-6">Payment Methods</h2>
+              
+              <!-- Add New Payment Method Button -->
+              <button id="addPaymentMethod" class="mb-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <i class="fas fa-plus mr-2"></i>Add New Payment Method
+              </button>
+
+              <!-- Payment Methods List -->
+              <div id="paymentMethodsList" class="space-y-4">
+                <!-- Payment methods will be dynamically added here -->
+        </div>
+
+              <!-- Add/Edit Payment Method Modal -->
+              <div id="paymentMethodModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
+                <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium" id="paymentModalTitle">Add Payment Method</h3>
+                    <button onclick="closePaymentModal()" class="text-gray-400 hover:text-gray-500">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <form id="paymentMethodForm" class="space-y-4">
+                    <input type="hidden" id="paymentMethodId">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Card Type</label>
+                      <select id="cardType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                        <option value="">Select Card Type</option>
+                        <option value="visa">Visa</option>
+                        <option value="mastercard">Mastercard</option>
+                        <option value="amex">American Express</option>
+                        <option value="discover">Discover</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Card Number</label>
+                      <input type="text" id="cardNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
+                        <input type="text" id="expiryDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="MM/YY" required>
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700">CVV</label>
+                        <input type="text" id="cvv" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="123" required>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700">Cardholder Name</label>
+                      <input type="text" id="cardholderName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                    </div>
+                    <div class="flex items-center">
+                      <input type="checkbox" id="defaultPayment" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                      <label for="defaultPayment" class="ml-2 block text-sm text-gray-900">Set as default payment method</label>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                      <button type="button" onclick="closePaymentModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                        Cancel
+                      </button>
+                      <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="container-custom">
+      <!-- Footer Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <!-- Company Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">ShopHub</h3>
+          <p class="text-gray-400 mb-4">
+            Your one-stop destination for all your shopping needs. Quality products, competitive prices, and exceptional service.
+          </p>
+          <div class="flex space-x-4">
+            <a href="https://www.facebook.com/share/12LUwef9YZU/?mibextid=wwXIfr" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/sole_style_shoes/" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\index.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="E:\Project Ecommerce\shop.html" class="text-gray-400 hover:text-white transition">Shop</a></li>
+            <li><a href="E:\Project Ecommerce\categories.html" class="text-gray-400 hover:text-white transition">Categories</a></li>
+            <li><a href="E:\Project Ecommerce\about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+            <li><a href="E:\Project Ecommerce\contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Customer Service -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Customer Service</h3>
+          <ul class="space-y-2">
+            <li><a href="account.html" class="text-gray-400 hover:text-white transition">My Account</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Orders & Returns</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Support Center</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
+              <span class="text-gray-400">F-3, Mandelia Road, Kamla Nagar, New Delhi 110007</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-3 text-gray-400"></i>
+              <span class="text-gray-400">+91 8726540277</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-gray-400"></i>
+              <span class="text-gray-400">support@shophub.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="text-center text-gray-500 text-sm pt-8 border-t border-gray-800">
+        <p>&copy; 2023 ShopHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize sample orders if none exist
+      if (!localStorage.getItem('shophub_orders')) {
+        const sampleOrders = [
+          {
+            orderNumber: 'ORD-001',
+            date: new Date().toISOString(),
+            status: 'Processing',
+            items: [
+              {
+                name: 'Wireless Headphones',
+                price: 99.99,
+                quantity: 1,
+                image: 'https://via.placeholder.com/64'
+              },
+              {
+                name: 'Smart Watch',
+                price: 199.99,
+                quantity: 1,
+                image: 'https://via.placeholder.com/64'
+              }
+            ],
+            shippingAddress: '123 Main St',
+            city: 'New York',
+            state: 'NY',
+            postalCode: '10001',
+            country: 'USA',
+            paymentMethod: 'Credit Card',
+            transactionId: 'TRX-001',
+            subtotal: 299.98,
+            shipping: 10.00,
+            tax: 24.00,
+            total: 333.98
+          },
+          {
+            orderNumber: 'ORD-002',
+            date: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+            status: 'Shipped',
+            items: [
+              {
+                name: 'Laptop',
+                price: 999.99,
+                quantity: 1,
+                image: 'https://via.placeholder.com/64'
+              }
+            ],
+            shippingAddress: '456 Oak Ave',
+            city: 'Los Angeles',
+            state: 'CA',
+            postalCode: '90001',
+            country: 'USA',
+            paymentMethod: 'PayPal',
+            transactionId: 'TRX-002',
+            subtotal: 999.99,
+            shipping: 15.00,
+            tax: 80.00,
+            total: 1094.99
+          }
+        ];
+        localStorage.setItem('shophub_orders', JSON.stringify(sampleOrders));
+      }
+
+      // Helper function to get the status class for styling
+      function getStatusClass(status) {
+        switch (status) {
+          case 'Delivered':
+            return 'bg-green-100 text-green-800';
+          case 'Shipped':
+            return 'bg-blue-100 text-blue-800';
+          case 'Processing':
+            return 'bg-yellow-100 text-yellow-800';
+          case 'Cancelled':
+            return 'bg-red-100 text-red-800';
+          default:
+            return 'bg-gray-100 text-gray-800';
+        }
+      }
+
+      // Load user data and update dashboard
+      function updateDashboard() {
+        console.log('Updating dashboard...');
+        const user = JSON.parse(localStorage.getItem('currentUser')) || {};
+        const orders = JSON.parse(localStorage.getItem('shophub_orders')) || [];
+        console.log('Loaded orders:', orders);
+        const wishlist = JSON.parse(localStorage.getItem('shophub_wishlist')) || [];
+        const coupons = JSON.parse(localStorage.getItem('shophub_coupons')) || [];
+
+        // Update account overview numbers
+        document.getElementById('total-orders').textContent = orders.length;
+        document.getElementById('wishlist-count').textContent = wishlist.length;
+        document.getElementById('coupons-count').textContent = coupons.length;
+
+        // Update recent orders table
+        const recentOrdersTable = document.getElementById('recent-orders');
+        recentOrdersTable.innerHTML = '';
+
+        // Sort orders by date (newest first) and take the 5 most recent
+        const recentOrders = orders
+          .sort((a, b) => new Date(b.date || new Date()) - new Date(a.date || new Date()))
+          .slice(0, 5);
+
+        console.log('Recent orders:', recentOrders);
+
+        recentOrders.forEach(order => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">${order.orderNumber || 'N/A'}</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(order.date || new Date()).toLocaleDateString()}</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">$${(order.total || 0).toFixed(2)}</td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm">
+              <span class="px-2 py-1 rounded-full text-xs font-medium ${getStatusClass(order.status || 'Processing')}">
+                ${order.status || 'Processing'}
+              </span>
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-right">
+              <button onclick="viewOrder('${order.orderNumber}')" class="text-blue-600 hover:text-blue-800">View</button>
+            </td>
+          `;
+          recentOrdersTable.appendChild(row);
+        });
+
+        // Also populate the orders tab with these orders
+        const ordersTable = document.getElementById('orders-list');
+        if (ordersTable) {
+          ordersTable.innerHTML = '';
+          
+          orders.forEach(order => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">${order.orderNumber || 'N/A'}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(order.date || new Date()).toLocaleDateString()}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">$${(order.total || 0).toFixed(2)}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm">
+                <span class="px-2 py-1 rounded-full text-xs font-medium ${getStatusClass(order.status || 'Processing')}">
+                  ${order.status || 'Processing'}
+                </span>
+              </td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-right">
+                <button onclick="viewOrder('${order.orderNumber}')" class="text-blue-600 hover:text-blue-800">View</button>
+              </td>
+            `;
+            ordersTable.appendChild(row);
+          });
+        }
+        
+        // Check for viewOrder parameter in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderToView = urlParams.get('viewOrder');
+        if (orderToView) {
+          // Open the orders tab first
+          document.querySelector('button[data-tab="orders"]').click();
+          // Then view the specific order
+          setTimeout(() => {
+            viewOrder(orderToView);
+            // Clear the URL parameter to avoid reopening on refresh
+            history.replaceState(null, '', window.location.pathname);
+          }, 100);
+        }
+      }
+
+      // View order details
+      window.viewOrder = function(orderNumber) {
+        console.log('Viewing order details for:', orderNumber);
+        const orders = JSON.parse(localStorage.getItem('shophub_orders')) || [];
+        console.log('All orders:', orders);
+        const order = orders.find(o => o.orderNumber === orderNumber);
+        console.log('Found order:', order);
+        
+        if (order) {
+          // Create modal content
+          const modalContent = `
+            <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="orderModal">
+              <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-lg font-medium">Order Details - ${order.orderNumber}</h3>
+                  <div class="flex items-center space-x-4">
+                    <button onclick="printOrder('${order.orderNumber}')" class="text-blue-600 hover:text-blue-800">
+                      <i class="fas fa-print mr-1"></i> Print
+                    </button>
+                    <button onclick="downloadInvoice('${order.orderNumber}')" class="text-blue-600 hover:text-blue-800">
+                      <i class="fas fa-download mr-1"></i> Download
+                    </button>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-500">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="space-y-6">
+                  <!-- Order Status -->
+                  <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div>
+                      <p class="text-sm text-gray-500">Order Status</p>
+                      <p class="font-medium">${order.status || 'Processing'}</p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Order Date</p>
+                      <p class="font-medium">${new Date(order.date || new Date()).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+
+                  <!-- Order Items -->
+                  <div>
+                    <h4 class="font-medium mb-3">Order Items</h4>
+                    <div class="space-y-3">
+                      ${(order.items || []).map(item => `
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                          <div class="flex items-center space-x-4">
+                            <img src="${item.image || 'https://via.placeholder.com/64'}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                            <div>
+                              <p class="font-medium">${item.name}</p>
+                              <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
+                              <p class="text-sm text-gray-500">Price: $${(item.price || 0).toFixed(2)}</p>
+                            </div>
+                          </div>
+                          <div class="text-right">
+                            <p class="font-medium">$${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</p>
+                          </div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+
+                  <!-- Shipping Information -->
+                  <div>
+                    <h4 class="font-medium mb-3">Shipping Information</h4>
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                      <p class="font-medium">${order.shippingAddress || 'No address provided'}</p>
+                      <p class="text-sm text-gray-500 mt-1">${order.city || ''}, ${order.state || ''} ${order.postalCode || ''}</p>
+                      <p class="text-sm text-gray-500">${order.country || ''}</p>
+                    </div>
+                  </div>
+
+                  <!-- Payment Information -->
+                  <div>
+                    <h4 class="font-medium mb-3">Payment Information</h4>
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                      <p class="font-medium">Payment Method: ${order.paymentMethod || 'Not specified'}</p>
+                      <p class="text-sm text-gray-500 mt-1">Transaction ID: ${order.transactionId || 'N/A'}</p>
+                    </div>
+                  </div>
+
+                  <!-- Order Summary -->
+                  <div>
+                    <h4 class="font-medium mb-3">Order Summary</h4>
+                    <div class="space-y-2">
+                      <div class="flex justify-between">
+                        <span>Subtotal:</span>
+                        <span>$${(order.subtotal || 0).toFixed(2)}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Shipping:</span>
+                        <span>$${(order.shipping || 0).toFixed(2)}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Tax:</span>
+                        <span>$${(order.tax || 0).toFixed(2)}</span>
+                      </div>
+                      <div class="flex justify-between font-medium text-lg border-t pt-2 mt-2">
+                        <span>Total:</span>
+                        <span>$${(order.total || 0).toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Order Actions -->
+                  <div class="flex justify-end space-x-4 pt-4 border-t">
+                    ${(order.status === 'Processing' || !order.status) ? `
+                      <button onclick="cancelOrder('${order.orderNumber}')" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                        <i class="fas fa-times mr-2"></i>Cancel Order
+                      </button>
+                    ` : ''}
+                    <button onclick="trackOrder('${order.orderNumber}')" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                      <i class="fas fa-truck mr-2"></i>Track Order
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          // Add modal to document
+          document.body.insertAdjacentHTML('beforeend', modalContent);
+        } else {
+          // Show error message if order not found
+          alert('Order details not found. Please try again later.');
+        }
+      };
+
+      // Print order
+      window.printOrder = function(orderNumber) {
+        const orders = JSON.parse(localStorage.getItem('shophub_orders')) || [];
+        const order = orders.find(o => o.orderNumber === orderNumber);
+        
+        if (order) {
+          // Create invoice HTML content
+          const invoiceContent = createInvoiceContent(order);
+
+          // Create a new window for the invoice
+          const invoiceWindow = window.open('', '_blank');
+          invoiceWindow.document.write(invoiceContent);
+          invoiceWindow.document.close();
+          
+          // Focus and print
+          setTimeout(() => {
+            invoiceWindow.focus();
+            invoiceWindow.print();
+          }, 250);
+        }
+      };
+      
+      // Download invoice
+      window.downloadInvoice = function(orderNumber) {
+        const orders = JSON.parse(localStorage.getItem('shophub_orders')) || [];
+        const order = orders.find(o => o.orderNumber === orderNumber);
+        
+        if (order) {
+          // Create invoice HTML content
+          const invoiceContent = createInvoiceContent(order);
+          
+          // Create a blob from the HTML content
+          const blob = new Blob([invoiceContent], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+          
+          // Create a temporary link element
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `invoice_${order.orderNumber}.html`;
+          
+          // Append to body, click, and remove
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          // Clean up
+          URL.revokeObjectURL(url);
+        }
+      };
+      
+      // Create invoice content
+      function createInvoiceContent(order) {
+        return `
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Invoice - ${order.orderNumber}</title>
+              <style>
+                body { 
+                  font-family: Arial, sans-serif;
+                  margin: 40px;
+                  color: #333;
+                }
+                .invoice-header { 
+                  text-align: center;
+                  margin-bottom: 40px;
+                  padding-bottom: 20px;
+                  border-bottom: 2px solid #eee;
+                }
+                .company-info {
+                  margin-bottom: 30px;
+                }
+                .invoice-details {
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 30px;
+                }
+                .customer-info, .order-info {
+                  flex: 1;
+                }
+                table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  margin-bottom: 30px;
+                }
+                th, td {
+                  padding: 12px;
+                  text-align: left;
+                  border-bottom: 1px solid #ddd;
+                }
+                th {
+                  background-color: #f8f9fa;
+                  font-weight: bold;
+                }
+                .total-row {
+                  font-weight: bold;
+                }
+                .footer {
+                  margin-top: 40px;
+                  padding-top: 20px;
+                  border-top: 2px solid #eee;
+                  text-align: center;
+                  font-size: 12px;
+                  color: #666;
+                }
+                @media print {
+                  body {
+                    margin: 0;
+                    padding: 20px;
+                  }
+                  .no-print {
+                    display: none;
+                  }
+                }
+              </style>
+            </head>
+            <body>
+              <div class="invoice-header">
+                <h1>ShopHub</h1>
+                <p>123 Business Street, New York, NY 10001</p>
+                <p>Phone: (123) 456-7890 | Email: support@shophub.com</p>
+              </div>
+
+              <div class="invoice-details">
+                <div class="customer-info">
+                  <h3>Bill To:</h3>
+                  <p>${order.shippingAddress || 'N/A'}</p>
+                  <p>${order.city || ''}, ${order.state || ''} ${order.postalCode || ''}</p>
+                  <p>${order.country || ''}</p>
+                </div>
+                <div class="order-info">
+                  <h3>Invoice Details:</h3>
+                  <p><strong>Invoice Number:</strong> ${order.orderNumber}</p>
+                  <p><strong>Date:</strong> ${new Date(order.date).toLocaleDateString()}</p>
+                  <p><strong>Status:</strong> ${order.status}</p>
+                  <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+                </div>
+              </div>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${order.items.map(item => `
+                    <tr>
+                      <td>${item.name}</td>
+                      <td>${item.quantity}</td>
+                      <td>$${item.price.toFixed(2)}</td>
+                      <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+                <tfoot>
+                  <tr class="total-row">
+                    <td colspan="3">Subtotal:</td>
+                    <td>$${order.subtotal.toFixed(2)}</td>
+                  </tr>
+                  <tr class="total-row">
+                    <td colspan="3">Shipping:</td>
+                    <td>$${order.shipping.toFixed(2)}</td>
+                  </tr>
+                  <tr class="total-row">
+                    <td colspan="3">Tax:</td>
+                    <td>$${order.tax.toFixed(2)}</td>
+                  </tr>
+                  <tr class="total-row">
+                    <td colspan="3">Total:</td>
+                    <td>$${order.total.toFixed(2)}</td>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <div class="footer">
+                <p>Thank you for your business!</p>
+                <p>This is a computer-generated invoice. No signature is required.</p>
+                <p>© ${new Date().getFullYear()} ShopHub. All rights reserved.</p>
+              </div>
+
+              <div class="no-print" style="text-align: center; margin-top: 20px;">
+                <button onclick="window.print()" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                  Print Invoice
+                </button>
+              </div>
+            </body>
+          </html>
+        `;
+      }
+
+      // Track order
+      window.trackOrder = function(orderNumber) {
+        const orders = JSON.parse(localStorage.getItem('shophub_orders')) || [];
+        const order = orders.find(o => o.orderNumber === orderNumber);
+        
+        if (order) {
+          // Generate a demo tracking number
+          const trackingNumber = `TRK${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}US`;
+          
+          // Remove any existing tracking modal
+          const existingModal = document.getElementById('trackingModal');
+          if (existingModal) {
+            existingModal.remove();
+          }
+          
+          const trackingModal = `
+            <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="trackingModal">
+              <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-lg font-medium">Order Tracking - ${order.orderNumber}</h3>
+                  <button onclick="closeTrackingModal()" class="text-gray-400 hover:text-gray-500">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <div class="space-y-6">
+                  <!-- Order Status Overview -->
+                  <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="text-sm text-gray-600">Current Status</p>
+                        <p class="text-lg font-semibold text-blue-700">${order.status || 'PROCESSING'}</p>
+                      </div>
+                      <div class="text-right">
+                        <p class="text-sm text-gray-600">Tracking Number</p>
+                        <p class="text-lg font-semibold text-blue-700">${trackingNumber}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tracking Timeline -->
+                  <div class="relative">
+                    <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                    <div class="space-y-8">
+                      ${getTrackingSteps(order.status).map(step => `
+                        <div class="relative pl-12">
+                          <div class="absolute left-3 top-1 w-3 h-3 rounded-full ${step.active ? 'bg-blue-600' : 'bg-gray-300'}"></div>
+                          <div class="${step.active ? 'text-blue-600' : 'text-gray-500'}">
+                            <p class="font-medium">${step.title}</p>
+                            <p class="text-sm">${step.date || ''}</p>
+                            ${step.description ? `<p class="text-sm mt-1">${step.description}</p>` : ''}
+                          </div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+
+                  <!-- Shipping Details -->
+                  <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-medium mb-3">Shipping Details</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div>
+                        <p class="text-sm text-gray-600">Estimated Delivery</p>
+                        <p class="font-medium">${getEstimatedDelivery(order.date)}</p>
+                      </div>
+                      <div>
+                        <p class="text-sm text-gray-600">Carrier</p>
+                        <p class="font-medium">ShopHub Express</p>
+                      </div>
+                      <div>
+                        <p class="text-sm text-gray-600">Service</p>
+                        <p class="font-medium">Standard Shipping</p>
+                      </div>
+                      <div>
+                        <p class="text-sm text-gray-600">Weight</p>
+                        <p class="font-medium">${calculateOrderWeight(order.items)} kg</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Delivery Address -->
+                  <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-medium mb-3">Delivery Address</h4>
+                    <p class="text-gray-700">${order.shippingAddress || 'N/A'}</p>
+                    <p class="text-gray-700">${order.city || ''}, ${order.state || ''} ${order.postalCode || ''}</p>
+                    <p class="text-gray-700">${order.country || ''}</p>
+                  </div>
+
+                  <!-- Support Information -->
+                  <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-medium mb-2">Need Help?</h4>
+                    <p class="text-sm text-gray-600">If you have any questions about your order, please contact our support team.</p>
+                    <div class="mt-2 flex items-center text-sm text-blue-600">
+                      <i class="fas fa-phone-alt mr-2"></i>
+                      <span>+1 (800) 123-4567</span>
+                    </div>
+                    <div class="mt-1 flex items-center text-sm text-blue-600">
+                      <i class="fas fa-envelope mr-2"></i>
+                      <span>support@shophub.com</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          // Add modal to document
+          document.body.insertAdjacentHTML('beforeend', trackingModal);
+          
+          // Add click outside to close functionality
+          document.getElementById('trackingModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+              closeTrackingModal();
+            }
+          });
+        }
+      };
+
+      // Close tracking modal
+      window.closeTrackingModal = function() {
+        const modal = document.getElementById('trackingModal');
+        if (modal) {
+          modal.remove();
+        }
+      };
+
+      // Get tracking steps based on order status
+      function getTrackingSteps(status) {
+        const currentDate = new Date();
+        const steps = [
+          { 
+            title: 'Order Placed', 
+            active: true,
+            date: currentDate.toLocaleDateString(),
+            description: 'Your order has been received and is being processed.'
+          },
+          { 
+            title: 'Processing', 
+            active: status === 'Processing' || status === 'Shipped' || status === 'Delivered',
+            date: status !== 'Placed' ? new Date(currentDate.getTime() + 86400000).toLocaleDateString() : '',
+            description: 'Your order is being prepared for shipment.'
+          },
+          { 
+            title: 'Shipped', 
+            active: status === 'Shipped' || status === 'Delivered',
+            date: status === 'Shipped' || status === 'Delivered' ? new Date(currentDate.getTime() + 172800000).toLocaleDateString() : '',
+            description: 'Your order has been shipped and is on its way.'
+          },
+          { 
+            title: 'Delivered', 
+            active: status === 'Delivered',
+            date: status === 'Delivered' ? new Date(currentDate.getTime() + 259200000).toLocaleDateString() : '',
+            description: 'Your order has been delivered successfully.'
+          }
+        ];
+        return steps;
+      }
+
+      // Calculate order weight (demo function)
+      function calculateOrderWeight(items) {
+        // Simple demo calculation: 0.5kg per item
+        return (items.length * 0.5).toFixed(1);
+      }
+
+      // Get estimated delivery date
+      function getEstimatedDelivery(orderDate) {
+        const deliveryDate = new Date(orderDate);
+        deliveryDate.setDate(deliveryDate.getDate() + 5); // Assuming 5 days delivery time
+        return deliveryDate.toLocaleDateString();
+      }
+
+      // Cancel order
+      window.cancelOrder = function(orderNumber) {
+        if (confirm('Are you sure you want to cancel this order?')) {
+          const orders = JSON.parse(localStorage.getItem('shophub_orders')) || [];
+          const updatedOrders = orders.map(order => {
+            if (order.orderNumber === orderNumber) {
+              return { ...order, status: 'Cancelled' };
+            }
+            return order;
+          });
+          localStorage.setItem('shophub_orders', JSON.stringify(updatedOrders));
+          updateDashboard();
+        }
+      };
+
+      // Close modal
+      window.closeModal = function() {
+        const modal = document.getElementById('orderModal');
+        if (modal) {
+          modal.remove();
+        }
+      };
+
+      // Update dashboard when page loads
+      updateDashboard();
+
+      // Update dashboard when switching to dashboard tab
+      document.getElementById('dashboard-tab').addEventListener('click', updateDashboard);
+
+      // Tab switching functionality
+      const tabButtons = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabButtons.forEach(btn => btn.classList.remove('tab-active'));
+          // Add active class to clicked tab
+          this.classList.add('tab-active');
+          
+          // Hide all tab contents
+          tabContents.forEach(content => content.style.display = 'none');
+          
+          // Show the corresponding tab content
+          const contentId = this.id.replace('-tab', '-content');
+          document.getElementById(contentId).style.display = 'block';
+        });
+      });
+
+      // Sign Out Button Functionality
+      const signOutButton = document.getElementById('signOutButton');
+      
+      signOutButton.addEventListener('click', function() {
+        // Clear user data from localStorage
+        localStorage.removeItem('currentUser');
+        // Redirect to login page
+        window.location.href = 'login-system.html';
+      });
+
+      // Account Details Form Handling
+      const accountForm = document.querySelector('#account-content form');
+      const firstNameInput = document.getElementById('firstName');
+      const lastNameInput = document.getElementById('lastName');
+      const displayNameInput = document.getElementById('displayName');
+      const emailInput = document.getElementById('email');
+
+      // Load saved user data from localStorage
+      const savedUser = JSON.parse(localStorage.getItem('currentUser')) || {
+        firstName: 'John',
+        lastName: 'Doe',
+        displayName: 'JohnD',
+        email: 'john.doe@example.com',
+        address: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        country: ''
+      };
+
+      // Populate form with saved data
+      firstNameInput.value = savedUser.firstName;
+      lastNameInput.value = savedUser.lastName;
+      displayNameInput.value = savedUser.displayName;
+      emailInput.value = savedUser.email;
+      document.getElementById('address').value = savedUser.address || '';
+      document.getElementById('city').value = savedUser.city || '';
+      document.getElementById('state').value = savedUser.state || '';
+      document.getElementById('postalCode').value = savedUser.postalCode || '';
+      document.getElementById('country').value = savedUser.country || '';
+
+      // Update welcome message
+      document.querySelector('.text-gray-300').textContent = `Welcome back, ${savedUser.firstName} ${savedUser.lastName}`;
+
+      // Handle form submission
+      accountForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get form values
+        const updatedUser = {
+          firstName: firstNameInput.value,
+          lastName: lastNameInput.value,
+          displayName: displayNameInput.value,
+          email: emailInput.value,
+          address: document.getElementById('address').value,
+          city: document.getElementById('city').value,
+          state: document.getElementById('state').value,
+          postalCode: document.getElementById('postalCode').value,
+          country: document.getElementById('country').value
+        };
+
+        // Handle password change if provided
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (currentPassword && newPassword && confirmPassword) {
+          if (newPassword !== confirmPassword) {
+            alert('New passwords do not match!');
+            return;
+          }
+          updatedUser.password = newPassword;
+        }
+
+        // Save updated user data to localStorage
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+
+        // Update welcome message
+        document.querySelector('.text-gray-300').textContent = `Welcome back, ${updatedUser.firstName} ${updatedUser.lastName}`;
+
+        // Show success message
+        const successMessage = document.createElement('div');
+        successMessage.className = 'bg-green-50 border-l-4 border-green-400 p-4 mb-6';
+        successMessage.innerHTML = `
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="fas fa-check-circle text-green-400"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-green-700">
+                Account details updated successfully!
+              </p>
+            </div>
+          </div>
+        `;
+        accountForm.insertBefore(successMessage, accountForm.firstChild);
+
+        // Clear password fields
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+
+        // Remove success message after 3 seconds
+        setTimeout(() => {
+          successMessage.remove();
+        }, 3000);
+      });
+
+      // Payment Methods Functionality
+      const paymentMethodsList = document.getElementById('paymentMethodsList');
+      const addPaymentMethodBtn = document.getElementById('addPaymentMethod');
+      const paymentMethodModal = document.getElementById('paymentMethodModal');
+      const paymentMethodForm = document.getElementById('paymentMethodForm');
+      const paymentModalTitle = document.getElementById('paymentModalTitle');
+
+      // Load saved payment methods
+      function loadPaymentMethods() {
+        const savedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+        const paymentMethods = savedUser.paymentMethods || [];
+        
+        paymentMethodsList.innerHTML = paymentMethods.length > 0 ? '' : `
+          <div class="text-center py-8 text-gray-500">
+            <i class="fas fa-credit-card text-4xl mb-4"></i>
+            <p>No payment methods added yet</p>
+          </div>
+        `;
+
+        paymentMethods.forEach((method, index) => {
+          const cardHtml = `
+            <div class="border rounded-lg p-4 flex items-center justify-between">
+              <div class="flex items-center">
+                <div class="w-12 h-8 bg-gray-100 rounded flex items-center justify-center mr-4">
+                  <i class="fab fa-${method.cardType} text-2xl text-gray-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium">${method.cardType.charAt(0).toUpperCase() + method.cardType.slice(1)} ending in ${method.cardNumber.slice(-4)}</p>
+                  <p class="text-sm text-gray-500">Expires ${method.expiryDate}</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                ${method.isDefault ? '<span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Default</span>' : ''}
+                <button onclick="editPaymentMethod(${index})" class="text-blue-600 hover:text-blue-800">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="deletePaymentMethod(${index})" class="text-red-600 hover:text-red-800">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+          paymentMethodsList.insertAdjacentHTML('beforeend', cardHtml);
+        });
+      }
+
+      // Add new payment method
+      addPaymentMethodBtn.addEventListener('click', () => {
+        paymentModalTitle.textContent = 'Add Payment Method';
+        paymentMethodForm.reset();
+        document.getElementById('paymentMethodId').value = '';
+        paymentMethodModal.classList.remove('hidden');
+      });
+
+      // Edit payment method
+      window.editPaymentMethod = function(index) {
+        const savedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+        const paymentMethods = savedUser.paymentMethods || [];
+        const method = paymentMethods[index];
+
+        paymentModalTitle.textContent = 'Edit Payment Method';
+        document.getElementById('paymentMethodId').value = index;
+        document.getElementById('cardType').value = method.cardType;
+        document.getElementById('cardNumber').value = method.cardNumber;
+        document.getElementById('expiryDate').value = method.expiryDate;
+        document.getElementById('cvv').value = method.cvv;
+        document.getElementById('cardholderName').value = method.cardholderName;
+        document.getElementById('defaultPayment').checked = method.isDefault;
+
+        paymentMethodModal.classList.remove('hidden');
+      };
+
+      // Delete payment method
+      window.deletePaymentMethod = function(index) {
+        if (confirm('Are you sure you want to delete this payment method?')) {
+          const savedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+          const paymentMethods = savedUser.paymentMethods || [];
+          paymentMethods.splice(index, 1);
+          savedUser.paymentMethods = paymentMethods;
+          localStorage.setItem('currentUser', JSON.stringify(savedUser));
+          loadPaymentMethods();
+        }
+      };
+
+      // Close payment modal
+      window.closePaymentModal = function() {
+        paymentMethodModal.classList.add('hidden');
+      };
+
+      // Handle payment method form submission
+      paymentMethodForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const savedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+        const paymentMethods = savedUser.paymentMethods || [];
+        const methodId = document.getElementById('paymentMethodId').value;
+
+        const newMethod = {
+          cardType: document.getElementById('cardType').value,
+          cardNumber: document.getElementById('cardNumber').value,
+          expiryDate: document.getElementById('expiryDate').value,
+          cvv: document.getElementById('cvv').value,
+          cardholderName: document.getElementById('cardholderName').value,
+          isDefault: document.getElementById('defaultPayment').checked
+        };
+
+        if (newMethod.isDefault) {
+          paymentMethods.forEach(method => method.isDefault = false);
+        }
+
+        if (methodId === '') {
+          paymentMethods.push(newMethod);
+        } else {
+          paymentMethods[methodId] = newMethod;
+        }
+
+        savedUser.paymentMethods = paymentMethods;
+        localStorage.setItem('currentUser', JSON.stringify(savedUser));
+
+        closePaymentModal();
+        loadPaymentMethods();
+
+        // Show success message
+        const successMessage = document.createElement('div');
+        successMessage.className = 'bg-green-50 border-l-4 border-green-400 p-4 mb-6';
+        successMessage.innerHTML = `
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="fas fa-check-circle text-green-400"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-green-700">
+                Payment method ${methodId === '' ? 'added' : 'updated'} successfully!
+              </p>
+            </div>
+          </div>
+        `;
+        document.querySelector('#payment-content .bg-white').insertBefore(successMessage, document.getElementById('addPaymentMethod'));
+
+        setTimeout(() => {
+          successMessage.remove();
+        }, 3000);
+      });
+
+      // Load payment methods when page loads
+      loadPaymentMethods();
+    });
+  </script>
+</body>
+</html> 

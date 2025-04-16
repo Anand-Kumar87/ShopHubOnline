@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - ShopHub E-Commerce</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --accent-color: #f59e0b;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .input-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      transition: all 0.3s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .loader {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .loader .spinner {
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .tab {
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      border-radius: 0.375rem;
+      border: 1px solid #e5e7eb;
+    }
+    .tab.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    .tab:hover:not(.active) {
+      background-color: #f9fafb;
+      border-color: #d1d5db;
+    }
+    .password-requirements li {
+      margin-bottom: 0.5rem;
+      color: #6b7280;
+    }
+    .password-requirements li.valid {
+      color: #10b981;
+    }
+    .password-requirements i {
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-cyan-50 min-h-screen flex items-center justify-center">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      <!-- Header -->
+      <div class="bg-gray-900 text-white py-6 px-8">
+        <h1 class="text-2xl font-bold">Welcome to ShopHub</h1>
+        <p class="text-gray-300 mt-1">Sign in to your account</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex border-b border-gray-200">
+        <button id="login-tab" class="tab active flex-1">Login</button>
+        <button id="register-tab" class="tab flex-1">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form" class="p-8">
+        <form>
+          <div class="mb-4">
+            <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <div class="relative">
+              <input type="text" id="login-email" class="input-field pr-10" placeholder="Enter your Gmail address">
+              <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">@gmail.com</span>
+            </div>
+            <div id="login-email-error" class="error-message"></div>
+          </div>
+
+          <div class="mb-4">
+            <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <div class="relative">
+              <input type="password" id="login-password" class="input-field pr-10" placeholder="Enter your password">
+              <button type="button" class="toggle-password absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" data-target="login-password">
+                <i class="fas fa-eye-slash"></i>
+              </button>
+            </div>
+            <div id="login-password-error" class="error-message"></div>
+          </div>
+
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+              <input type="checkbox" id="remember-me" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+              <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+            </div>
+            <a href="forgot-password.html" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="w-full btn-primary py-3">
+            Sign In
+          </button>
+
+          <div class="loader">
+            <div class="spinner"></div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div id="register-form" class="p-8" style="display: none;">
+        <form>
+          <div class="mb-4">
+            <label for="register-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input type="text" id="register-name" class="input-field" placeholder="Enter your full name">
+            <div id="register-name-error" class="error-message"></div>
+          </div>
+
+          <div class="mb-4">
+            <label for="register-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <div class="relative">
+              <input type="text" id="register-email" class="input-field pr-10" placeholder="Enter your Gmail address">
+              <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">@gmail.com</span>
+            </div>
+            <div id="register-email-error" class="error-message"></div>
+          </div>
+
+          <div class="mb-4">
+            <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <div class="relative">
+              <input type="password" id="register-password" class="input-field pr-10" placeholder="Create a password">
+              <button type="button" class="toggle-password absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" data-target="register-password">
+                <i class="fas fa-eye-slash"></i>
+              </button>
+            </div>
+            <div id="register-password-error" class="error-message"></div>
+          </div>
+
+          <div class="mb-4">
+            <label for="register-confirm" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+            <div class="relative">
+              <input type="password" id="register-confirm" class="input-field pr-10" placeholder="Confirm your password">
+              <button type="button" class="toggle-password absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" data-target="register-confirm">
+                <i class="fas fa-eye-slash"></i>
+              </button>
+            </div>
+            <div id="register-confirm-error" class="error-message"></div>
+          </div>
+
+          <ul class="password-requirements mb-6 text-sm">
+            <li id="length"><i class="fas fa-circle"></i> At least 8 characters long</li>
+            <li id="uppercase"><i class="fas fa-circle"></i> Contains at least one uppercase letter</li>
+            <li id="number"><i class="fas fa-circle"></i> Contains at least one number</li>
+            <li id="special"><i class="fas fa-circle"></i> Contains at least one special character</li>
+          </ul>
+
+          <button type="submit" class="w-full btn-primary py-3">
+            Create Account
+          </button>
+
+          <div class="loader">
+            <div class="spinner"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add a console debug message to confirm this page loads
+    console.log('Professional login form loaded successfully');
+    
+    // DOM Elements
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const togglePasswordBtns = document.querySelectorAll('.toggle-password');
+    
+    // API endpoints
+    const API_URL = 'http://localhost:3000/api';
+    
+    // Toggle between Login and Register forms
+    loginTab.addEventListener('click', function() {
+      loginTab.classList.add('active');
+      registerTab.classList.remove('active');
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+      
+      // Clear all error messages
+      document.querySelectorAll('.error-message').forEach(error => {
+        error.style.display = 'none';
+      });
+    });
+    
+    registerTab.addEventListener('click', function() {
+      registerTab.classList.add('active');
+      loginTab.classList.remove('active');
+      registerForm.style.display = 'block';
+      loginForm.style.display = 'none';
+      
+      // Clear all error messages
+      document.querySelectorAll('.error-message').forEach(error => {
+        error.style.display = 'none';
+      });
+    });
+    
+    // Toggle password visibility
+    togglePasswordBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const passwordInput = document.getElementById(targetId);
+        
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          this.classList.remove('fa-eye-slash');
+          this.classList.add('fa-eye');
+        } else {
+          passwordInput.type = 'password';
+          this.classList.remove('fa-eye');
+          this.classList.add('fa-eye-slash');
+        }
+      });
+    });
+    
+    // Validate Gmail address
+    function validateGmail(emailInput, errorElement) {
+      const email = emailInput.value.trim();
+      const gmailRegex = /^[a-zA-Z0-9._%+-]+$/;
+      
+      if (email === '') {
+        errorElement.textContent = 'Email address is required';
+        errorElement.style.display = 'block';
+        return false;
+      } else if (!gmailRegex.test(email)) {
+        errorElement.textContent = 'Please enter a valid Gmail address';
+        errorElement.style.display = 'block';
+        return false;
+      } else {
+        errorElement.style.display = 'none';
+        return true;
+      }
+    }
+    
+    // Validate password
+    function validatePassword(password, errorElement) {
+      if (password.length === 0) {
+        errorElement.textContent = 'Password is required';
+        errorElement.style.display = 'block';
+        return false;
+      } else if (password.length < 8) {
+        errorElement.textContent = 'Password must be at least 8 characters long';
+        errorElement.style.display = 'block';
+        return false;
+      } else if (!/[A-Z]/.test(password)) {
+        errorElement.textContent = 'Password must contain at least one uppercase letter';
+        errorElement.style.display = 'block';
+        return false;
+      } else if (!/[0-9]/.test(password)) {
+        errorElement.textContent = 'Password must contain at least one number';
+        errorElement.style.display = 'block';
+        return false;
+      } else if (!/[^A-Za-z0-9]/.test(password)) {
+        errorElement.textContent = 'Password must contain at least one special character';
+        errorElement.style.display = 'block';
+        return false;
+      } else {
+        errorElement.style.display = 'none';
+        return true;
+      }
+    }
+    
+    // Live password validation for registration
+    const registerPassword = document.getElementById('register-password');
+    registerPassword.addEventListener('input', function() {
+      const password = this.value;
+      
+      // Check length requirement
+      const lengthReq = document.getElementById('length');
+      if (password.length >= 8) {
+        lengthReq.classList.add('valid');
+        lengthReq.querySelector('i').classList.remove('fa-circle');
+        lengthReq.querySelector('i').classList.add('fa-check-circle');
+      } else {
+        lengthReq.classList.remove('valid');
+        lengthReq.querySelector('i').classList.remove('fa-check-circle');
+        lengthReq.querySelector('i').classList.add('fa-circle');
+      }
+      
+      // Check uppercase requirement
+      const uppercaseReq = document.getElementById('uppercase');
+      if (/[A-Z]/.test(password)) {
+        uppercaseReq.classList.add('valid');
+        uppercaseReq.querySelector('i').classList.remove('fa-circle');
+        uppercaseReq.querySelector('i').classList.add('fa-check-circle');
+      } else {
+        uppercaseReq.classList.remove('valid');
+        uppercaseReq.querySelector('i').classList.remove('fa-check-circle');
+        uppercaseReq.querySelector('i').classList.add('fa-circle');
+      }
+      
+      // Check number requirement
+      const numberReq = document.getElementById('number');
+      if (/[0-9]/.test(password)) {
+        numberReq.classList.add('valid');
+        numberReq.querySelector('i').classList.remove('fa-circle');
+        numberReq.querySelector('i').classList.add('fa-check-circle');
+      } else {
+        numberReq.classList.remove('valid');
+        numberReq.querySelector('i').classList.remove('fa-check-circle');
+        numberReq.querySelector('i').classList.add('fa-circle');
+      }
+      
+      // Check special character requirement
+      const specialReq = document.getElementById('special');
+      if (/[^A-Za-z0-9]/.test(password)) {
+        specialReq.classList.add('valid');
+        specialReq.querySelector('i').classList.remove('fa-circle');
+        specialReq.querySelector('i').classList.add('fa-check-circle');
+      } else {
+        specialReq.classList.remove('valid');
+        specialReq.querySelector('i').classList.remove('fa-check-circle');
+        specialReq.querySelector('i').classList.add('fa-circle');
+      }
+    });
+    
+    // Login form submission
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const emailInput = document.getElementById('login-email');
+      const passwordInput = document.getElementById('login-password');
+      const emailError = document.getElementById('login-email-error');
+      const passwordError = document.getElementById('login-password-error');
+      
+      const isEmailValid = validateGmail(emailInput, emailError);
+      const isPasswordValid = passwordInput.value.trim() !== '';
+      
+      if (!isPasswordValid) {
+        passwordError.textContent = 'Password is required';
+        passwordError.style.display = 'block';
+      } else {
+        passwordError.style.display = 'none';
+      }
+      
+      if (isEmailValid && isPasswordValid) {
+        // Show loader
+        loginForm.querySelector('.loader').style.display = 'flex';
+        
+        // Get stored users from localStorage
+        const storedUsers = JSON.parse(localStorage.getItem('shophub_users')) || [];
+        const email = emailInput.value.trim() + '@gmail.com';
+        const password = passwordInput.value;
+        const rememberMe = document.getElementById('remember-me').checked;
+        
+        // Simulate API delay
+        setTimeout(() => {
+          // Hide loader
+          loginForm.querySelector('.loader').style.display = 'none';
+          
+          // Find user in stored users
+          const user = storedUsers.find(u => u.email === email && u.password === password);
+          
+          if (user) {
+            // Login successful
+            // Store user data in localStorage or sessionStorage based on remember me
+            const storage = rememberMe ? localStorage : sessionStorage;
+            storage.setItem('auth_token', 'dummy_token_' + Date.now());
+            storage.setItem('user', JSON.stringify(user));
+            
+            // Redirect to dashboard
+            window.location.href = 'admin.html';
+          } else {
+            // Login failed
+            passwordError.textContent = 'Invalid email or password';
+            passwordError.style.display = 'block';
+          }
+        }, 1000); // Simulate 1 second delay
+      }
+    });
+    
+    // Register form submission
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const nameInput = document.getElementById('register-name');
+      const emailInput = document.getElementById('register-email');
+      const passwordInput = document.getElementById('register-password');
+      const confirmInput = document.getElementById('register-confirm');
+      
+      const nameError = document.getElementById('register-name-error');
+      const emailError = document.getElementById('register-email-error');
+      const passwordError = document.getElementById('register-password-error');
+      const confirmError = document.getElementById('register-confirm-error');
+      
+      // Validate name
+      const isNameValid = nameInput.value.trim() !== '';
+      if (!isNameValid) {
+        nameError.textContent = 'Full name is required';
+        nameError.style.display = 'block';
+      } else {
+        nameError.style.display = 'none';
+      }
+      
+      // Validate email
+      const isEmailValid = validateGmail(emailInput, emailError);
+      
+      // Validate password
+      const isPasswordValid = validatePassword(passwordInput.value, passwordError);
+      
+      // Validate password confirmation
+      const isConfirmValid = confirmInput.value === passwordInput.value;
+      if (confirmInput.value.trim() === '') {
+        confirmError.textContent = 'Please confirm your password';
+        confirmError.style.display = 'block';
+      } else if (!isConfirmValid) {
+        confirmError.textContent = 'Passwords do not match';
+        confirmError.style.display = 'block';
+      } else {
+        confirmError.style.display = 'none';
+      }
+      
+      if (isNameValid && isEmailValid && isPasswordValid && isConfirmValid) {
+        // Show loader
+        registerForm.querySelector('.loader').style.display = 'flex';
+        
+        // Get stored users
+        const storedUsers = JSON.parse(localStorage.getItem('shophub_users')) || [];
+        const email = emailInput.value.trim() + '@gmail.com';
+        
+        // Check if email already exists
+        if (storedUsers.some(user => user.email === email)) {
+          // Hide loader
+          registerForm.querySelector('.loader').style.display = 'none';
+          emailError.textContent = 'Email already registered';
+          emailError.style.display = 'block';
+          return;
+        }
+        
+        // Create new user
+        const newUser = {
+          name: nameInput.value.trim(),
+          email: email,
+          password: passwordInput.value,
+          role: 'customer'
+        };
+        
+        // Add new user to stored users
+        storedUsers.push(newUser);
+        localStorage.setItem('shophub_users', JSON.stringify(storedUsers));
+        
+        // Simulate API delay
+        setTimeout(() => {
+          // Hide loader
+          registerForm.querySelector('.loader').style.display = 'none';
+          
+          // Registration successful
+          alert('Registration successful! Please login with your new credentials.');
+          
+          // Clear form
+          registerForm.reset();
+          
+          // Switch to login tab
+          loginTab.click();
+        }, 1000);
+      }
+    });
+    
+    // Check for existing session
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Checking for existing auth token...');
+      const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+      
+      if (token) {
+        console.log('Auth token found, redirecting to dashboard');
+        // User is already logged in, redirect to dashboard
+        window.location.href = 'admin.html';
+      } else {
+        console.log('No auth token found, showing login form');
+      }
+    });
+  </script> 
+</body>
+</html> 

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - ShopHub E-Commerce</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --accent-color: #f59e0b;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .container-custom {
+      max-width: 80rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container-custom {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .container-custom {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-shake {
+      animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    .input-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      transition: all 0.3s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    .input-error {
+      border-color: #ef4444;
+    }
+    .input-error:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+    }
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md py-4">
+    <div class="container-custom">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="E:\Project Ecommerce\index.html" class="text-2xl font-bold text-blue-600">
+          ShopHub
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="E:\Project Ecommerce\index.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Home</a>
+          <a href="E:\Project Ecommerce\shop.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Shop</a>
+          <a href="E:\Project Ecommerce\categories.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Categories</a>
+          <a href="E:\Project Ecommerce\about.html" class="font-medium text-gray-500 hover:text-blue-600 transition">About</a>
+          <a href="E:\Project Ecommerce\contact.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Contact</a>
+        </nav>
+        
+        <!-- User Actions -->
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+          <a href="account.html" class="p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-user text-xl"></i>
+          </a>
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition relative">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+          </button>
+          <button class="md:hidden p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="animate-fade-in">
+    <!-- Login Page Header -->
+    <div class="bg-gray-900 text-white py-12">
+      <div class="container-custom">
+        <div class="text-center">
+          <h1 class="text-3xl font-bold mb-2">Sign In</h1>
+          <p class="text-gray-300">Welcome back to ShopHub</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Login Content -->
+    <div class="container-custom py-12">
+      <div class="max-w-md mx-auto">
+        <div class="bg-white rounded-lg shadow-sm p-8">
+          <!-- Login Form -->
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-6">Login to Your Account</h2>
+            <form id="loginForm">
+              <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="email" class="input-field" placeholder="Enter your email" required>
+              </div>
+              <div class="mb-6">
+                <div class="flex items-center justify-between mb-1">
+                  <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                  <a href="forgot-password.html" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
+                </div>
+                <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+              </div>
+              <div id="login-error" class="mb-4 text-red-500 text-sm font-medium hidden">
+                Incorrect email or password. Please try again.
+              </div>
+              <div id="login-success" class="mb-4 hidden">
+                <!-- Success message will be inserted here -->
+              </div>
+              <div class="flex items-center mb-6">
+                <input type="checkbox" id="remember" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+              </div>
+              <div class="text-sm text-gray-500 mb-4">
+                <p>For testing: use <strong>demo@example.com</strong> / <strong>password123</strong></p>
+              </div>
+              <button type="submit" class="w-full btn-primary py-3">
+                Sign In
+              </button>
+            </form>
+          </div>
+          
+          <!-- Divider -->
+          <div class="relative py-3">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center">
+              <span class="bg-white px-4 text-sm text-gray-500">Or</span>
+            </div>
+          </div>
+          
+          <!-- Social Login -->
+          <div class="mt-6 space-y-3">
+            <button id="googleLogin" class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+              <i class="fab fa-google text-red-500 mr-2"></i>
+              Continue with Google
+            </button>
+            <button id="facebookLogin" class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+              <i class="fab fa-facebook text-blue-600 mr-2"></i>
+              Continue with Facebook
+            </button>
+          </div>
+          
+          <!-- Register Link -->
+          <div class="mt-8 text-center">
+            <p class="text-sm text-gray-600">
+              Don't have an account?
+              <a href="register.html" class="font-medium text-blue-600 hover:underline">Create an account</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white pt-16 pb-8">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- About Column -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">About ShopHub</h3>
+          <p class="text-gray-400 mb-4">
+            We offer a premium shopping experience with the best products and deals.
+          </p>
+          <div class="flex space-x-4">
+            <a href="https://www.facebook.com/share/12LUwef9YZU/?mibextid=wwXIfr" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.instagram.com/sole_style_shoes/" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-pinterest"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\index.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="E:\Project Ecommerce\shop.html" class="text-gray-400 hover:text-white transition">Shop</a></li>
+            <li><a href="E:\Project Ecommerce\categories.html" class="text-gray-400 hover:text-white transition">Categories</a></li>
+            <li><a href="E:\Project Ecommerce\about.html" class="text-gray-400 hover:text-white transition">About</a></li>
+            <li><a href="E:\Project Ecommerce\contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Customer Service -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Customer Service</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\faq.html" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="E:\Project Ecommerce\shipping.html" class="text-gray-400 hover:text-white transition">Shipping & Returns</a></li>
+            <li><a href="E:\Project Ecommerce\terms.html" class="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
+            <li><a href="E:\Project Ecommerce\privacy.html" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="E:\Project Ecommerce\account.html" class="text-gray-400 hover:text-white transition">My Account</a></li>
+          </ul>
+        </div>
+        
+        <!-- Newsletter -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
+          <p class="text-gray-400 mb-4">
+            Subscribe to our newsletter to get updates about our latest products and offers.
+          </p>
+          <form class="flex">
+            <input type="email" placeholder="Your email" class="px-4 py-2 flex-1 rounded-l-md focus:outline-none">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 mt-12 pt-8">
+        <div class="flex flex-col md:flex-row md:justify-between items-center">
+          <p class="text-gray-400 text-sm">
+            &copy; 2023 ShopHub. All rights reserved.
+          </p>
+          <div class="mt-4 md:mt-0">
+            <img src="https://via.placeholder.com/200x30" alt="Payment Methods" class="h-8">
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Social Login Modals -->
+  <!-- Google Account Selection Modal -->
+  <div id="googleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold">Choose Google Account</h3>
+        <button onclick="closeGoogleModal()" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-3">
+        <button class="w-full flex items-center p-3 border rounded-lg hover:bg-gray-50 transition" onclick="selectGoogleAccount('john.doe@gmail.com')">
+          <img src="https://via.placeholder.com/32" alt="Profile" class="w-8 h-8 rounded-full mr-3">
+          <div class="text-left">
+            <div class="font-medium">John Doe</div>
+            <div class="text-sm text-gray-500">john.doe@gmail.com</div>
+          </div>
+        </button>
+        <button class="w-full flex items-center p-3 border rounded-lg hover:bg-gray-50 transition" onclick="selectGoogleAccount('jane.smith@gmail.com')">
+          <img src="https://via.placeholder.com/32" alt="Profile" class="w-8 h-8 rounded-full mr-3">
+          <div class="text-left">
+            <div class="font-medium">Jane Smith</div>
+            <div class="text-sm text-gray-500">jane.smith@gmail.com</div>
+          </div>
+        </button>
+        <button class="w-full flex items-center p-3 border rounded-lg hover:bg-gray-50 transition" onclick="selectGoogleAccount('add.account')">
+          <i class="fas fa-plus-circle text-blue-600 mr-3"></i>
+          <div class="text-left text-blue-600">Add another account</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Facebook Account Selection Modal -->
+  <div id="facebookModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold">Choose Facebook Account</h3>
+        <button onclick="closeFacebookModal()" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-3">
+        <button class="w-full flex items-center p-3 border rounded-lg hover:bg-gray-50 transition" onclick="selectFacebookAccount('john.doe@facebook.com')">
+          <img src="https://via.placeholder.com/32" alt="Profile" class="w-8 h-8 rounded-full mr-3">
+          <div class="text-left">
+            <div class="font-medium">John Doe</div>
+            <div class="text-sm text-gray-500">john.doe@facebook.com</div>
+          </div>
+        </button>
+        <button class="w-full flex items-center p-3 border rounded-lg hover:bg-gray-50 transition" onclick="selectFacebookAccount('jane.smith@facebook.com')">
+          <img src="https://via.placeholder.com/32" alt="Profile" class="w-8 h-8 rounded-full mr-3">
+          <div class="text-left">
+            <div class="font-medium">Jane Smith</div>
+            <div class="text-sm text-gray-500">jane.smith@facebook.com</div>
+          </div>
+        </button>
+        <button class="w-full flex items-center p-3 border rounded-lg hover:bg-gray-50 transition" onclick="selectFacebookAccount('add.account')">
+          <i class="fas fa-plus-circle text-blue-600 mr-3"></i>
+          <div class="text-left text-blue-600">Add another account</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Login form submission
+      const loginForm = document.getElementById('loginForm');
+      const loginError = document.getElementById('login-error');
+      const loginSuccess = document.getElementById('login-success');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      
+      const clearErrors = () => {
+        loginError.classList.add('hidden');
+        loginSuccess.classList.add('hidden');
+        emailInput.classList.remove('input-error');
+        passwordInput.classList.remove('input-error');
+      };
+      
+      const showLoginError = (message) => {
+        loginError.textContent = message;
+        loginError.classList.remove('hidden');
+        emailInput.classList.add('input-error');
+        passwordInput.classList.add('input-error');
+        
+        // Add shake animation to form
+        loginForm.classList.add('animate-shake');
+        setTimeout(() => {
+          loginForm.classList.remove('animate-shake');
+        }, 500);
+      };
+      
+      const showLoginSuccess = (email) => {
+        loginSuccess.innerHTML = `
+          <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <i class="fas fa-check-circle text-green-500 text-xl"></i>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-green-800">Login Successful!</h3>
+                <div class="mt-2 text-sm text-green-700">
+                  <p>Welcome back, ${email}</p>
+                  <p class="mt-1">Redirecting to your account...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        loginSuccess.classList.remove('hidden');
+      };
+      
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        
+        // Clear previous errors
+        clearErrors();
+        
+        // Basic validation
+        if (!email) {
+          showLoginError('Please enter your email address');
+          return;
+        }
+        
+        if (!/\S+@\S+\.\S+/.test(email)) {
+          showLoginError('Please enter a valid email address');
+          return;
+        }
+        
+        if (!password) {
+          showLoginError('Please enter your password');
+          return;
+        }
+        
+        // Show loading state
+        emailInput.disabled = true;
+        passwordInput.disabled = true;
+        const submitButton = loginForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = `
+          <div class="flex items-center justify-center">
+            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+            Logging in...
+          </div>
+        `;
+        
+        try {
+          // Try to send login request to backend
+          try {
+            const response = await fetch('http://localhost:3000/api/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({ email, password })
+            });
+            
+            if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.message || 'Invalid email or password');
+            }
+            
+            const data = await response.json();
+            console.log('Login successful:', data);
+            
+            // Show success message
+            showLoginSuccess(email);
+            
+            // Redirect to account page after a short delay
+            setTimeout(() => {
+              window.location.href = 'account.html';
+            }, 2000);
+          } catch (networkError) {
+            console.error('Network error:', networkError);
+            
+            // Fallback for demo/development - simulate successful login with test credentials
+            if (email === 'demo@example.com' && password === 'password123') {
+              console.log('Using fallback login for demo account');
+              
+              // Show success message
+              showLoginSuccess(email);
+              
+              // Redirect to account page after a short delay
+              setTimeout(() => {
+                window.location.href = 'account.html';
+              }, 2000);
+            } else {
+              throw new Error('Backend service unavailable. For testing, use demo@example.com / password123');
+            }
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          showLoginError(error.message || 'Failed to login. Please try again.');
+          
+          // Reset button state
+          submitButton.disabled = false;
+          submitButton.innerHTML = 'Sign In';
+          emailInput.disabled = false;
+          passwordInput.disabled = false;
+        }
+      });
+
+      // Social login functionality
+      const googleLoginBtn = document.getElementById('googleLogin');
+      const facebookLoginBtn = document.getElementById('facebookLogin');
+      const googleModal = document.getElementById('googleModal');
+      const facebookModal = document.getElementById('facebookModal');
+
+      googleLoginBtn.addEventListener('click', function() {
+        showGoogleModal();
+      });
+
+      facebookLoginBtn.addEventListener('click', function() {
+        showFacebookModal();
+      });
+    });
+
+    // Modal functions
+    function showGoogleModal() {
+      const modal = document.getElementById('googleModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeGoogleModal() {
+      const modal = document.getElementById('googleModal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function showFacebookModal() {
+      const modal = document.getElementById('facebookModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeFacebookModal() {
+      const modal = document.getElementById('facebookModal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    // Account selection functions
+    function selectGoogleAccount(email) {
+      if (email === 'add.account') {
+        alert('Redirecting to Google account selection...');
+        return;
+      }
+      
+      // Show loading state
+      const modal = document.getElementById('googleModal');
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p class="text-gray-600">Signing in with Google...</p>
+        </div>
+      `;
+
+      // Simulate authentication delay
+      setTimeout(() => {
+        console.log('Google login successful:', email);
+        window.location.href = 'account.html';
+      }, 1500);
+    }
+
+    function selectFacebookAccount(email) {
+      if (email === 'add.account') {
+        alert('Redirecting to Facebook account selection...');
+        return;
+      }
+      
+      // Show loading state
+      const modal = document.getElementById('facebookModal');
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p class="text-gray-600">Signing in with Facebook...</p>
+        </div>
+      `;
+
+      // Simulate authentication delay
+      setTimeout(() => {
+        console.log('Facebook login successful:', email);
+        window.location.href = 'account.html';
+      }, 1500);
+    }
+
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+      const googleModal = document.getElementById('googleModal');
+      const facebookModal = document.getElementById('facebookModal');
+      
+      if (event.target === googleModal) {
+        closeGoogleModal();
+      }
+      if (event.target === facebookModal) {
+        closeFacebookModal();
+      }
+    });
+
+    // Redirect to the new login system
+    window.location.href = 'login-system.html';
+  </script>
+</body>
+</html> 

@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - ShopHub E-Commerce</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --accent-color: #f59e0b;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .container-custom {
+      max-width: 80rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container-custom {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .container-custom {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      transition: border-color 0.15s ease-in-out;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+    .checkout-step {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      background-color: white;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    .checkout-step-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .checkout-step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      margin-right: 0.75rem;
+    }
+    .checkout-step-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md py-4">
+    <div class="container-custom">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="E:\Project Ecommerce\index.html" class="text-2xl font-bold text-blue-600">
+          ShopHub
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="E:\Project Ecommerce\index.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Home</a>
+          <a href="E:\Project Ecommerce\shop.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Shop</a>
+          <a href="E:\Project Ecommerce\categories.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Categories</a>
+          <a href="E:\Project Ecommerce\about.html" class="font-medium text-gray-500 hover:text-blue-600 transition">About</a>
+          <a href="E:\Project Ecommerce\contact.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Contact</a>
+        </nav>
+        
+        <!-- User Actions -->
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition" id="search-button">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+          <a href="account.html" class="p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-user text-xl"></i>
+          </a>
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition relative" id="cart-button">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="cart-count absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+          </button>
+          <button class="md:hidden p-2 text-gray-500 hover:text-blue-600 transition" id="mobile-menu-button">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center">
+    <div class="w-full max-w-2xl mx-auto p-4">
+      <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        <div class="p-4 relative">
+          <h3 class="text-lg font-semibold mb-3">Search Products</h3>
+          <button id="close-search" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+            <i class="fas fa-times"></i>
+          </button>
+          <form id="search-form" class="relative">
+            <input 
+              type="text" 
+              id="search-input" 
+              placeholder="Search for products..."
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+            <button type="submit" class="absolute right-3 top-3 text-gray-500">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <div id="search-results" class="mt-4 max-h-80 overflow-y-auto">
+            <!-- Search results will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="animate-fade-in py-12">
+    <div class="container-custom">
+      <h1 class="text-3xl font-bold mb-8">Checkout</h1>
+      
+      <!-- Checkout Content -->
+      <div class="lg:flex lg:gap-8">
+        <!-- Checkout Form -->
+        <div class="lg:w-2/3">
+          <!-- Order Summary (Mobile) -->
+          <div class="lg:hidden mb-6">
+            <div class="checkout-step">
+              <div class="checkout-step-header">
+                <div class="checkout-step-number">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h2 class="checkout-step-title">Order Summary</h2>
+              </div>
+              
+              <div id="mobile-cart-summary">
+                <!-- Will be filled with JS -->
+              </div>
+            </div>
+          </div>
+        
+          <!-- Step 1: Shipping Information -->
+          <div class="checkout-step">
+            <div class="checkout-step-header">
+              <div class="checkout-step-number">1</div>
+              <h2 class="checkout-step-title">Shipping Information</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="form-label" for="first-name">First Name</label>
+                <input type="text" id="first-name" class="form-input" required>
+              </div>
+              <div>
+                <label class="form-label" for="last-name">Last Name</label>
+                <input type="text" id="last-name" class="form-input" required>
+              </div>
+              <div>
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" class="form-input" required>
+              </div>
+              <div>
+                <label class="form-label" for="phone">Phone Number</label>
+                <input type="tel" id="phone" class="form-input" required>
+              </div>
+              <div class="md:col-span-2">
+                <label class="form-label" for="address">Address</label>
+                <input type="text" id="address" class="form-input" required>
+              </div>
+              <div>
+                <label class="form-label" for="city">City</label>
+                <input type="text" id="city" class="form-input" required>
+              </div>
+              <div>
+                <label class="form-label" for="postal-code">Postal Code</label>
+                <input type="text" id="postal-code" class="form-input" required>
+              </div>
+              <div>
+                <label class="form-label" for="state">State/Province</label>
+                <input type="text" id="state" class="form-input" required>
+              </div>
+              <div>
+                <label class="form-label" for="country">Country</label>
+                <select id="country" class="form-input" required>
+                  <option value="">Select a country</option>
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="AU">Australia</option>
+                  <option value="IN">India</option>
+                  <!-- Add more countries as needed -->
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 2: Payment Method -->
+          <div class="checkout-step">
+            <div class="checkout-step-header">
+              <div class="checkout-step-number">2</div>
+              <h2 class="checkout-step-title">Payment Method</h2>
+            </div>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="flex items-center cursor-pointer">
+                  <input type="radio" name="payment-method" value="credit-card" checked class="form-radio h-4 w-4 text-blue-600">
+                  <span class="ml-2">Credit Card</span>
+                </label>
+                
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="md:col-span-2">
+                    <label class="form-label" for="card-number">Card Number</label>
+                    <input type="text" id="card-number" class="form-input" placeholder="XXXX XXXX XXXX XXXX" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="expiry-date">Expiry Date</label>
+                    <input type="text" id="expiry-date" class="form-input" placeholder="MM/YY" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="cvv">CVV</label>
+                    <input type="text" id="cvv" class="form-input" placeholder="XXX" required>
+                  </div>
+                  <div class="md:col-span-2">
+                    <label class="form-label" for="card-name">Name on Card</label>
+                    <input type="text" id="card-name" class="form-input" required>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label class="flex items-center cursor-pointer">
+                  <input type="radio" name="payment-method" value="paypal" class="form-radio h-4 w-4 text-blue-600">
+                  <span class="ml-2">PayPal</span>
+                </label>
+              </div>
+              
+              <div>
+                <label class="flex items-center cursor-pointer">
+                  <input type="radio" name="payment-method" value="bank-transfer" class="form-radio h-4 w-4 text-blue-600">
+                  <span class="ml-2">Bank Transfer</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 3: Review Order -->
+          <div class="checkout-step">
+            <div class="checkout-step-header">
+              <div class="checkout-step-number">3</div>
+              <h2 class="checkout-step-title">Review Order</h2>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <input type="checkbox" id="terms" class="form-checkbox h-4 w-4 text-blue-600 mt-1">
+                <label for="terms" class="ml-2 text-gray-700">
+                  I agree to the <a href="#" class="text-blue-600 hover:underline">Terms and Conditions</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>
+                </label>
+              </div>
+              
+              <div class="flex items-start">
+                <input type="checkbox" id="newsletter" class="form-checkbox h-4 w-4 text-blue-600 mt-1">
+                <label for="newsletter" class="ml-2 text-gray-700">
+                  Sign up for our newsletter to receive updates and special offers
+                </label>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+              <button id="place-order-btn" class="btn-primary w-full py-3 text-lg">
+                Place Order
+              </button>
+              <p class="text-center text-gray-500 text-sm mt-2">
+                You will be charged after clicking "Place Order"
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Order Summary (Desktop) -->
+        <div class="lg:w-1/3 hidden lg:block">
+          <div class="sticky top-24">
+            <div class="checkout-step">
+              <div class="checkout-step-header">
+                <div class="checkout-step-number">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h2 class="checkout-step-title">Order Summary</h2>
+              </div>
+              
+              <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                  <h2 class="text-xl font-medium text-gray-900">Order Summary</h2>
+                  <div class="relative">
+                    <select id="checkout-currency" class="appearance-none bg-white border border-gray-300 py-1 px-3 pr-8 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="USD">USD ($)</option>
+                      <option value="EUR">EUR (€)</option>
+                      <option value="GBP">GBP (£)</option>
+                      <option value="JPY">JPY (¥)</option>
+                      <option value="CAD">CAD (CA$)</option>
+                      <option value="AUD">AUD (A$)</option>
+                      <option value="INR">INR (₹)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                      <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <div id="cart-items-container"></div>
+                
+                <div class="border-t border-gray-200 pt-4">
+                  <div class="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal"></span>
+                  </div>
+                  <div class="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>Shipping</span>
+                    <span id="shipping-cost" class="font-medium">$5.99</span>
+                  </div>
+                  <div class="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>Tax</span>
+                    <span id="tax-amount" class="font-medium">$0.00</span>
+                  </div>
+                  <div class="flex justify-between pt-2 border-t border-gray-200">
+                    <span class="font-semibold">Total</span>
+                    <span id="order-total" class="font-bold text-lg">$0.00</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-4">
+                <a href="E:\Project Ecommerce\shop.html" class="text-blue-600 hover:underline flex items-center">
+                  <i class="fas fa-arrow-left mr-2"></i>
+                  Continue Shopping
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Order Success Modal -->
+  <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl p-6 max-w-md mx-auto">
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+          <i class="fas fa-check text-2xl text-green-600"></i>
+        </div>
+        <h2 class="text-2xl font-bold mb-2">Order Placed Successfully!</h2>
+        <p class="text-gray-600 mb-6">
+          Thank you for your purchase. Your order has been received and is being processed.
+        </p>
+        <div class="mb-4 p-4 bg-gray-50 rounded-lg text-left">
+          <p class="font-medium">Order Number: <span id="order-number" class="font-normal text-gray-600"></span></p>
+          <p class="font-medium mt-1">Estimated Delivery: <span class="font-normal text-gray-600">3-5 business days</span></p>
+        </div>
+        <div class="flex space-x-3">
+          <a href="E:\Project Ecommerce\index.html" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition">
+            Return to Home
+          </a>
+          <button id="view-order-btn" class="w-full border border-gray-300 bg-white text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-50 transition">
+            View Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8 mt-16">
+    <div class="container-custom">
+      <!-- Footer Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <!-- Company Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">ShopHub</h3>
+          <p class="text-gray-400 mb-4">
+            Your one-stop destination for all your shopping needs. Quality products, competitive prices, and exceptional service.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\index.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="E:\Project Ecommerce\shop.html" class="text-gray-400 hover:text-white transition">Shop</a></li>
+            <li><a href="E:\Project Ecommerce\categories.html" class="text-gray-400 hover:text-white transition">Categories</a></li>
+            <li><a href="E:\Project Ecommerce\about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+            <li><a href="E:\Project Ecommerce\contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Customer Service -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Customer Service</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\account.html" class="text-gray-400 hover:text-white transition">My Account</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Orders & Returns</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Support Center</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
+              <span class="text-gray-400">F-3, Mandelia Road, Kamla Nagar, New Delhi 110007</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-3 text-gray-400"></i>
+              <span class="text-gray-400">+91 8726540777</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-gray-400"></i>
+              <span class="text-gray-400">support@shophub.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="text-center text-gray-500 text-sm pt-8 border-t border-gray-800">
+        <p>&copy; 2023 ShopHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load cart data from localStorage
+      let cart = [];
+      try {
+        const savedCart = localStorage.getItem('shophub_cart');
+        if (savedCart) {
+          cart = JSON.parse(savedCart);
+        }
+      } catch (error) {
+        console.error('Error loading cart data:', error);
+      }
+      
+      // Calculate totals
+      const TAX_RATE = 0.08; // 8% tax rate
+      const SHIPPING_COST = 5.99;
+      
+      let subtotal = 0;
+      cart.forEach(item => {
+        subtotal += item.price * item.quantity;
+      });
+      
+      const taxAmount = subtotal * TAX_RATE;
+      const orderTotal = subtotal + taxAmount + SHIPPING_COST;
+      
+      // Update order summary
+      const cartItemsContainer = document.getElementById('cart-items-container');
+      const mobileCartSummary = document.getElementById('mobile-cart-summary');
+      const cartSubtotalEl = document.getElementById('cart-subtotal');
+      const taxAmountEl = document.getElementById('tax-amount');
+      const orderTotalEl = document.getElementById('order-total');
+      
+      // Format numbers for display
+      function formatCurrency(amount, currencyCode = null) {
+        // Get the selected currency from localStorage or use USD as default
+        const selectedCurrency = currencyCode || localStorage.getItem('shophub_currency') || 'USD';
+        
+        // Define exchange rates relative to USD (1 USD = X units of currency)
+        const exchangeRates = {
+          USD: 1,
+          EUR: 0.91,  // 1 USD = 0.91 EUR
+          GBP: 0.78,  // 1 USD = 0.78 GBP
+          JPY: 149.5, // 1 USD = 149.5 JPY
+          CAD: 1.37,  // 1 USD = 1.37 CAD
+          AUD: 1.52,  // 1 USD = 1.52 AUD
+          INR: 83.25  // 1 USD = 83.25 INR
+        };
+        
+        // Currency symbols
+        const currencySymbols = {
+          USD: '$',
+          EUR: '€',
+          GBP: '£',
+          JPY: '¥',
+          CAD: 'CA$',
+          AUD: 'A$',
+          INR: '₹'
+        };
+        
+        // Convert amount to selected currency
+        const convertedAmount = parseFloat(amount) * exchangeRates[selectedCurrency];
+        
+        // Format the amount based on currency
+        let formattedAmount;
+        if (selectedCurrency === 'JPY' || selectedCurrency === 'INR') {
+          // No decimal places for JPY and INR
+          formattedAmount = Math.round(convertedAmount);
+        } else {
+          formattedAmount = convertedAmount.toFixed(2);
+        }
+        
+        // Return formatted string with currency symbol
+        return currencySymbols[selectedCurrency] + formattedAmount;
+      }
+      
+      // Update displayed totals
+      if (cartSubtotalEl) cartSubtotalEl.textContent = formatCurrency(subtotal);
+      if (taxAmountEl) taxAmountEl.textContent = formatCurrency(taxAmount);
+      if (orderTotalEl) orderTotalEl.textContent = formatCurrency(orderTotal);
+      
+      // Render cart items
+      function renderCartItems(container) {
+        if (!container) return;
+        
+        if (cart.length === 0) {
+          container.innerHTML = '<p class="text-gray-500 py-4">Your cart is empty</p>';
+          return;
+        }
+        
+        let html = '<div class="space-y-4 mb-4">';
+        
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          
+          html += `
+            <div class="flex items-start">
+              <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded bg-gray-100 mr-4">
+                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+              </div>
+              <div class="flex-grow">
+                <h3 class="font-medium text-gray-900">${item.name}</h3>
+                <div class="flex justify-between mt-1">
+                  <div class="text-gray-500">
+                    <span>${formatCurrency(item.price)}</span>
+                    <span class="mx-1">×</span>
+                    <span>${item.quantity}</span>
+                  </div>
+                  <div class="font-medium">${formatCurrency(itemTotal)}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+      }
+      
+      renderCartItems(cartItemsContainer);
+      renderCartItems(mobileCartSummary);
+      
+      // Place order
+      const placeOrderBtn = document.getElementById('place-order-btn');
+      const successModal = document.getElementById('success-modal');
+      const orderNumberEl = document.getElementById('order-number');
+      const viewOrderBtn = document.getElementById('view-order-btn');
+      
+      if (placeOrderBtn) {
+        placeOrderBtn.addEventListener('click', function() {
+          // Basic form validation
+          const required = document.querySelectorAll('[required]');
+          let isValid = true;
+          
+          required.forEach(field => {
+            if (!field.value.trim()) {
+              field.classList.add('border-red-500');
+              isValid = false;
+            } else {
+              field.classList.remove('border-red-500');
+            }
+          });
+          
+          // Terms checkbox validation
+          const termsCheckbox = document.getElementById('terms');
+          if (termsCheckbox && !termsCheckbox.checked) {
+            alert('Please agree to the Terms and Conditions');
+            return;
+          }
+          
+          if (!isValid) {
+            alert('Please fill in all required fields');
+            return;
+          }
+          
+          // If cart is empty
+          if (cart.length === 0) {
+            alert('Your cart is empty. Please add items before checkout.');
+            return;
+          }
+          
+          // Generate a random order number
+          const orderNumber = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+          
+          // Set order number in success modal
+          if (orderNumberEl) {
+            orderNumberEl.textContent = orderNumber;
+          }
+          
+          // Show success modal
+          if (successModal) {
+            successModal.classList.remove('hidden');
+          }
+          
+          // Create the order object
+          const firstName = document.getElementById('first-name').value;
+          const lastName = document.getElementById('last-name').value;
+          const email = document.getElementById('email').value;
+          const phone = document.getElementById('phone').value;
+          const address = document.getElementById('address').value;
+          const city = document.getElementById('city').value;
+          const state = document.getElementById('state').value;
+          const postalCode = document.getElementById('postal-code').value;
+          
+          // Create the order object
+          const orderData = {
+            orderNumber: orderNumber,
+            date: new Date().toISOString(),
+            customer: {
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              phone: phone
+            },
+            shippingAddress: {
+              address: address,
+              city: city,
+              state: state,
+              postalCode: postalCode,
+              country: document.getElementById('country').value
+            },
+            items: cart.map(item => ({
+              id: item.id,
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              image: item.image
+            })),
+            subtotal: subtotal,
+            tax: taxAmount,
+            shipping: SHIPPING_COST,
+            total: orderTotal,
+            status: 'Processing',
+            paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value || 'credit-card'
+          };
+          
+          // Save to orders database in localStorage
+          let existingOrders = [];
+          try {
+            const savedOrders = localStorage.getItem('shophub_orders');
+            if (savedOrders) {
+              existingOrders = JSON.parse(savedOrders);
+            }
+          } catch (error) {
+            console.error('Error loading existing orders:', error);
+          }
+          
+          // Add new order to the beginning of the array
+          existingOrders.unshift(orderData);
+          
+          // Save back to localStorage
+          localStorage.setItem('shophub_orders', JSON.stringify(existingOrders));
+          
+          // Clear cart data
+          localStorage.removeItem('shophub_cart');
+          cart = [];
+        });
+      }
+      
+      // Close success modal
+      if (successModal) {
+        successModal.addEventListener('click', function(e) {
+          if (e.target === successModal) {
+            successModal.classList.add('hidden');
+          }
+        });
+      }
+      
+      // View order button
+      if (viewOrderBtn) {
+        viewOrderBtn.addEventListener('click', function() {
+          // Save order details to localStorage
+          const orderData = {
+            orderNumber: orderNumberEl.textContent,
+            orderDate: new Date().toISOString(),
+            items: cart,
+            shipping: {
+              firstName: document.getElementById('first-name').value,
+              lastName: document.getElementById('last-name').value,
+              email: document.getElementById('email').value,
+              phone: document.getElementById('phone').value,
+              address: document.getElementById('address').value,
+              city: document.getElementById('city').value,
+              postalCode: document.getElementById('postal-code').value,
+              state: document.getElementById('state').value,
+              country: document.getElementById('country').value
+            },
+            payment: {
+              method: document.querySelector('input[name="payment-method"]:checked').value
+            },
+            totals: {
+              subtotal: subtotal,
+              tax: taxAmount,
+              shipping: SHIPPING_COST,
+              total: orderTotal
+            }
+          };
+          
+          // Save order data to localStorage
+          localStorage.setItem('shophub_order', JSON.stringify(orderData));
+          
+          // Redirect to account page with the order number as a parameter
+          window.location.href = 'account.html?viewOrder=' + orderNumberEl.textContent;
+        });
+      }
+      
+      // Add search functionality
+      const searchButton = document.getElementById('search-button');
+      const searchOverlay = document.getElementById('search-overlay');
+      const closeSearch = document.getElementById('close-search');
+      const searchForm = document.getElementById('search-form');
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      
+      // Toggle search overlay
+      if (searchButton) {
+        searchButton.addEventListener('click', function() {
+          searchOverlay.classList.remove('hidden');
+          setTimeout(() => {
+            searchInput.focus();
+          }, 100);
+        });
+      }
+      
+      if (closeSearch) {
+        closeSearch.addEventListener('click', function() {
+          searchOverlay.classList.add('hidden');
+        });
+      }
+      
+      // Close search when clicking outside
+      searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) {
+          searchOverlay.classList.add('hidden');
+        }
+      });
+      
+      // Handle search
+      if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          performSearch();
+        });
+        
+        // Also search as you type
+        searchInput.addEventListener('input', debounce(performSearch, 300));
+      }
+      
+      function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        searchResults.innerHTML = '';
+        
+        if (query.length < 2) {
+          searchResults.innerHTML = '<p class="text-gray-500 text-center py-4">Please enter at least 2 characters to search</p>';
+          return;
+        }
+        
+        // For this demo, let's redirect to shop.html with search query
+        searchResults.innerHTML = `
+          <div class="p-4 text-center">
+            <p class="mb-4">Press Enter or click below to search products.</p>
+            <a href="shop.html?search=${encodeURIComponent(query)}" class="btn-primary inline-block">
+              Search for "${query}" in shop
+            </a>
+          </div>
+        `;
+      }
+      
+      // Utility function to debounce search input
+      function debounce(func, delay) {
+        let timeout;
+        return function() {
+          const context = this;
+          const args = arguments;
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+      }
+
+      // When document is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        // Initialize currency selector
+        const currencySelect = document.getElementById('checkout-currency');
+        if (currencySelect) {
+          // Set the dropdown to the saved currency or default to USD
+          const savedCurrency = localStorage.getItem('shophub_currency') || 'USD';
+          currencySelect.value = savedCurrency;
+          
+          // Add event listener to save currency selection
+          currencySelect.addEventListener('change', function() {
+            const selectedCurrency = this.value;
+            localStorage.setItem('shophub_currency', selectedCurrency);
+            
+            // Update displayed prices with new currency
+            updateDisplayedPrices();
+          });
+        }
+        
+        renderCartItems(cartItemsContainer);
+        renderCartItems(mobileCartSummary);
+      });
+      
+      // Function to update all displayed prices based on selected currency
+      function updateDisplayedPrices() {
+        // Update summary totals
+        if (cartSubtotalEl) cartSubtotalEl.textContent = formatCurrency(subtotal);
+        if (taxAmountEl) taxAmountEl.textContent = formatCurrency(taxAmount);
+        if (orderTotalEl) orderTotalEl.textContent = formatCurrency(orderTotal);
+        
+        // Re-render cart items to update item prices
+        renderCartItems(cartItemsContainer);
+        renderCartItems(mobileCartSummary);
+      }
+    });
+  </script>
+</body>
+</html> 

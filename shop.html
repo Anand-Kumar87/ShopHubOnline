@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - ShopHub E-Commerce</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --accent-color: #f59e0b;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-0.25rem);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    .container-custom {
+      max-width: 80rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container-custom {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .container-custom {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .filter-btn {
+      background-color: white;
+      border: 1px solid #e5e7eb;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #4b5563;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md py-4">
+    <div class="container-custom">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="E:\Project Ecommerce\index.html" class="text-2xl font-bold text-blue-600">
+          ShopHub
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="E:\Project Ecommerce\index.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Home</a>
+          <a href="E:\Project Ecommerce\shop.html" class="font-medium text-gray-900 hover:text-blue-600 transition">Shop</a>
+          <a href="E:\Project Ecommerce\categories.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Categories</a>
+          <a href="E:\Project Ecommerce\about.html" class="font-medium text-gray-500 hover:text-blue-600 transition">About</a>
+          <a href="E:\Project Ecommerce\contact.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Contact</a>
+        </nav>
+        
+        <!-- User Actions -->
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition" id="search-button">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+          <a href="account.html" class="p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-user text-xl"></i>
+          </a>
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition relative" id="cart-button">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="cart-count absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+          </button>
+          <button class="md:hidden p-2 text-gray-500 hover:text-blue-600 transition" id="mobile-menu-button">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center">
+    <div class="w-full max-w-2xl mx-auto p-4">
+      <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        <div class="p-4 relative">
+          <h3 class="text-lg font-semibold mb-3">Search Products</h3>
+          <button id="close-search" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+            <i class="fas fa-times"></i>
+          </button>
+          <form id="search-form" class="relative">
+            <input 
+              type="text" 
+              id="search-input" 
+              placeholder="Search for products..."
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+            <button type="submit" class="absolute right-3 top-3 text-gray-500">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <div id="search-results" class="mt-4 max-h-80 overflow-y-auto">
+            <!-- Search results will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="animate-fade-in">
+    <!-- Shop Banner -->
+    <div class="bg-gray-900 text-white py-12">
+      <div class="container-custom text-center">
+        <h1 class="text-4xl font-bold mb-4">Shop All Products</h1>
+        <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+          Browse our collection of high-quality products across various categories.
+        </p>
+      </div>
+    </div>
+    
+    <!-- Shop Content -->
+    <div class="container-custom py-12">
+      <div class="lg:flex lg:gap-8">
+        <!-- Sidebar/Filters -->
+        <div class="lg:w-1/4 mb-8 lg:mb-0">
+          <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h3 class="font-semibold text-lg mb-4">Categories</h3>
+            <ul class="space-y-2" id="category-filters">
+              <li><a href="#" class="block hover:text-blue-600 transition category-filter active" data-category="all">All Products <span class="text-gray-500 text-sm">(256)</span></a></li>
+              <li><a href="#" class="block hover:text-blue-600 transition category-filter" data-category="Electronics">Electronics <span class="text-gray-500 text-sm">(128)</span></a></li>
+              <li><a href="#" class="block hover:text-blue-600 transition category-filter" data-category="Clothing">Clothing <span class="text-gray-500 text-sm">(235)</span></a></li>
+              <li><a href="#" class="block hover:text-blue-600 transition category-filter" data-category="Accessories">Accessories <span class="text-gray-500 text-sm">(157)</span></a></li>
+            </ul>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h3 class="font-semibold text-lg mb-4">Price Range</h3>
+            <div>
+              <div class="flex justify-between mb-2">
+                <span>$0</span>
+                <span>$500</span>
+              </div>
+              <input type="range" min="0" max="500" value="500" class="w-full" id="price-range-slider">
+              <div class="flex gap-2 mt-4">
+                <input type="number" placeholder="Min" value="0" class="w-full rounded border-gray-300 p-2 text-sm" id="min-price">
+                <input type="number" placeholder="Max" value="500" class="w-full rounded border-gray-300 p-2 text-sm" id="max-price">
+              </div>
+              <button class="btn-primary w-full mt-3" id="apply-price-filter">Apply</button>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <h3 class="font-semibold text-lg mb-4">Customer Ratings</h3>
+            <div class="space-y-2">
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="ml-2 flex items-center">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <span class="ml-1 text-sm text-gray-500">(4.5 & up)</span>
+                </span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="ml-2 flex items-center">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-gray-300"></i>
+                  <span class="ml-1 text-sm text-gray-500">(4.0 & up)</span>
+                </span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600">
+                <span class="ml-2 flex items-center">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <i class="fas fa-star text-gray-300"></i>
+                  <i class="fas fa-star text-gray-300"></i>
+                  <span class="ml-1 text-sm text-gray-500">(3.0 & up)</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Products Grid -->
+        <div class="lg:w-3/4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold mb-4 md:mb-0 products-heading">All Products</h2>
+            
+            <!-- Sort Dropdown -->
+            <div class="w-full md:w-auto flex flex-wrap items-center">
+              <div class="mr-4">
+                <span class="text-gray-600 mr-2">Sort by:</span>
+                <select class="border border-gray-300 rounded py-1 px-2" id="sort-products">
+                  <option value="default">Featured</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="rating">Customer Rating</option>
+                  <option value="newest">Newest First</option>
+                </select>
+              </div>
+              <span id="product-count" class="text-gray-600">Showing 12 products</span>
+            </div>
+          </div>
+          
+          <!-- Products Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
+            <!-- Products will be dynamically loaded here -->
+          </div>
+          
+          <!-- Pagination -->
+          <div class="flex justify-center mt-12">
+            <nav class="inline-flex rounded-md shadow" id="pagination">
+              <a href="#" class="py-2 px-4 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50" data-page="prev">Previous</a>
+              <a href="#" class="py-2 px-4 bg-blue-600 border border-blue-600 text-white" data-page="1">1</a>
+              <a href="#" class="py-2 px-4 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50" data-page="2">2</a>
+              <a href="#" class="py-2 px-4 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50" data-page="3">3</a>
+              <a href="#" class="py-2 px-4 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50" data-page="next">Next</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Product Detail Modal -->
+  <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center">
+    <div class="w-full max-w-4xl mx-auto p-4">
+      <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        <div class="relative">
+          <button id="close-product" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 z-10">
+            <i class="fas fa-times"></i>
+          </button>
+          <div class="flex flex-col md:flex-row">
+            <!-- Product Image -->
+            <div class="w-full md:w-1/2">
+              <div class="aspect-square overflow-hidden">
+                <img id="modal-product-image" src="" alt="Product" class="w-full h-full object-cover">
+              </div>
+            </div>
+            
+            <!-- Product Info -->
+            <div class="w-full md:w-1/2 p-6">
+              <h2 id="modal-product-name" class="text-2xl font-bold mb-2"></h2>
+              <div class="flex items-center mb-4">
+                <div class="flex items-center text-yellow-500 mr-2">
+                  <i class="fas fa-star"></i>
+                  <span id="modal-product-rating" class="ml-1"></span>
+                </div>
+                <span id="modal-product-reviews" class="text-gray-600"></span>
+              </div>
+              <div class="mb-4">
+                <span id="modal-product-price" class="text-2xl font-bold text-gray-900"></span>
+                <span id="modal-product-old-price" class="text-lg text-gray-500 line-through ml-2 hidden"></span>
+              </div>
+              <p id="modal-product-description" class="text-gray-600 mb-6"></p>
+              
+              <!-- Quantity Selector -->
+              <div class="mb-6">
+                <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                <div class="flex items-center">
+                  <button id="decrease-quantity" class="px-3 py-1 border border-gray-300 rounded-l-md bg-gray-100">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input 
+                    type="number" 
+                    id="product-quantity" 
+                    value="1" 
+                    min="1" 
+                    class="w-16 border-y border-gray-300 py-1 text-center"
+                  >
+                  <button id="increase-quantity" class="px-3 py-1 border border-gray-300 rounded-r-md bg-gray-100">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Add to Cart Button -->
+              <button 
+                id="add-to-cart-btn"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+                data-product-id=""
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shopping Cart Sidebar -->
+  <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300">
+    <div class="flex flex-col h-full">
+      <!-- Cart Header -->
+      <div class="flex items-center justify-between p-4 border-b">
+        <h2 class="text-xl font-bold">Your Cart</h2>
+        <button id="close-cart" class="text-gray-500 hover:text-gray-800">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <!-- Cart Items -->
+      <div id="cart-items" class="flex-grow overflow-y-auto p-4">
+        <!-- Cart items will be populated here -->
+      </div>
+      
+      <!-- Cart Footer -->
+      <div class="border-t p-4">
+        <div class="flex justify-between mb-4">
+          <span class="font-medium">Subtotal:</span>
+          <span id="cart-subtotal" class="font-bold">$0.00</span>
+        </div>
+        <button id="checkout-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition">
+          Proceed to Checkout
+        </button>
+        <button id="continue-shopping" class="w-full mt-2 border border-gray-300 bg-white text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-50 transition">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Overlay -->
+  <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="container-custom">
+      <!-- Footer Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <!-- Company Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">ShopHub</h3>
+          <p class="text-gray-400 mb-4">
+            Your one-stop destination for all your shopping needs. Quality products, competitive prices, and exceptional service.
+          </p>
+          <div class="flex space-x-4">
+            <a href="https://www.facebook.com/share/12LUwef9YZU/?mibextid=wwXIfr" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/sole_style_shoes/" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\index.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="E:\Project Ecommerce\shop.html" class="text-gray-400 hover:text-white transition">Shop</a></li>
+            <li><a href="E:\Project Ecommerce\categories.html" class="text-gray-400 hover:text-white transition">Categories</a></li>
+            <li><a href="E:\Project Ecommerce\about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+            <li><a href="E:\Project Ecommerce\contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Customer Service -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Customer Service</h3>
+          <ul class="space-y-2">
+            <li><a href="E:\Project Ecommerce\account.html" class="text-gray-400 hover:text-white transition">My Account</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Orders & Returns</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Support Center</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
+              <span class="text-gray-400">F-3, Mandelia Road, Kamla Nagar, New Delhi 110007</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-3 text-gray-400"></i>
+              <span class="text-gray-400">+91 8726540277</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-gray-400"></i>
+              <span class="text-gray-400">support@shophub.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="text-center text-gray-500 text-sm pt-8 border-t border-gray-800">
+        <p>&copy; 2023 ShopHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Product data (would typically come from a database)
+      const products = [
+        { 
+          id: 1, 
+          name: 'Wireless Noise Cancelling Headphones', 
+          price: 199.99, 
+          oldPrice: null,
+          category: 'Electronics',
+          description: 'Experience premium sound quality with these wireless noise cancelling headphones. Perfect for travel, work, or relaxation.',
+          image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.8,
+          reviews: 124,
+          date: '2023-05-10'
+        },
+        { 
+          id: 2, 
+          name: 'Premium Leather Wallet', 
+          price: 44.99, 
+          oldPrice: 49.99,
+          category: 'Accessories',
+          description: 'Handcrafted from genuine leather, this premium wallet features multiple card slots and a bill compartment.',
+          image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.5,
+          reviews: 89,
+          date: '2023-04-15'
+        },
+        { 
+          id: 3, 
+          name: 'Smartwatch Series 5', 
+          price: 299.99, 
+          oldPrice: null,
+          category: 'Electronics',
+          description: 'Stay connected with this advanced smartwatch featuring health monitoring, GPS tracking, and a stunning always-on display.',
+          image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.7,
+          reviews: 156,
+          date: '2023-06-20'
+        },
+        { 
+          id: 4, 
+          name: 'Casual Denim Jacket', 
+          price: 89.99, 
+          oldPrice: null,
+          category: 'Clothing',
+          description: 'A versatile denim jacket made from high-quality cotton. Features a classic design with button closure and multiple pockets.',
+          image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.4,
+          reviews: 78,
+          date: '2023-03-25'
+        },
+        { 
+          id: 5, 
+          name: 'Bluetooth Portable Speaker', 
+          price: 79.99, 
+          oldPrice: 94.99,
+          category: 'Electronics',
+          description: 'Take your music anywhere with this waterproof Bluetooth speaker. Delivers rich, clear sound with deep bass.',
+          image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.6,
+          reviews: 112,
+          date: '2023-02-10'
+        },
+        { 
+          id: 6, 
+          name: 'Cotton T-shirt Pack', 
+          price: 34.99, 
+          oldPrice: null,
+          category: 'Clothing',
+          description: 'Set of 3 premium cotton t-shirts. Soft, comfortable, and durable with a classic fit.',
+          image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.3,
+          reviews: 95,
+          date: '2023-04-05'
+        },
+        { 
+          id: 7, 
+          name: 'Designer Sunglasses', 
+          price: 129.99, 
+          oldPrice: null,
+          category: 'Accessories',
+          description: 'Protect your eyes in style with these designer sunglasses. Features UV protection and polarized lenses.',
+          image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.7,
+          reviews: 67,
+          date: '2023-05-20'
+        },
+        { 
+          id: 8, 
+          name: 'Gaming Mechanical Keyboard', 
+          price: 149.99, 
+          oldPrice: null,
+          category: 'Electronics',
+          description: 'Enhance your gaming experience with this mechanical keyboard featuring customizable RGB lighting and programmable keys.',
+          image: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.9,
+          reviews: 203,
+          date: '2023-01-15'
+        },
+        { 
+          id: 9, 
+          name: 'Winter Jacket', 
+          price: 129.99, 
+          oldPrice: 159.99,
+          category: 'Clothing',
+          description: 'Stay warm during winter with this insulated jacket featuring water-resistant exterior and multiple pockets.',
+          image: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.6,
+          reviews: 85,
+          date: '2023-07-10'
+        },
+        { 
+          id: 10, 
+          name: 'Stylish Backpack', 
+          price: 59.99, 
+          oldPrice: null,
+          category: 'Accessories',
+          description: 'A durable and stylish backpack with laptop compartment and multiple organizer pockets.',
+          image: 'https://images.unsplash.com/photo-1622560480654-d96214fdc887?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.4,
+          reviews: 58,
+          date: '2023-06-05'
+        },
+        { 
+          id: 11, 
+          name: 'Wireless Earbuds', 
+          price: 119.99, 
+          oldPrice: 139.99,
+          category: 'Electronics',
+          description: 'True wireless earbuds with noise cancellation and premium sound quality. Up to 8 hours of battery life.',
+          image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.7,
+          reviews: 132,
+          date: '2023-03-15'
+        },
+        { 
+          id: 12, 
+          name: 'Dress Shoes', 
+          price: 89.99, 
+          oldPrice: null,
+          category: 'Accessories',
+          description: 'Classic leather dress shoes with a comfortable fit and durable construction.',
+          image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+          rating: 4.5,
+          reviews: 74,
+          date: '2023-02-20'
+        }
+      ];
+
+      // Initial filters
+      const filters = {
+        category: 'all',
+        minPrice: 0,
+        maxPrice: 1000,
+        sortBy: 'default',
+        currentPage: 1,
+        itemsPerPage: 8,
+        searchQuery: ''
+      };
+      
+      // Check URL parameters for search query
+      function checkUrlParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+        
+        if (searchParam) {
+          filters.searchQuery = searchParam;
+          // Update search field if it exists
+          const searchInput = document.getElementById('search-input');
+          if (searchInput) {
+            searchInput.value = filters.searchQuery;
+          }
+          
+          // Display search results message
+          const productsHeading = document.querySelector('.products-heading');
+          if (productsHeading) {
+            productsHeading.textContent = `Search Results for "${filters.searchQuery}"`;
+          }
+        }
+      }
+      
+      // Run URL parameter check on page load
+      checkUrlParams();
+
+      // Elements
+      const productsGrid = document.getElementById('products-grid');
+      const categoryFilters = document.querySelectorAll('.category-filter');
+      const priceRangeSlider = document.getElementById('price-range-slider');
+      const minPriceInput = document.getElementById('min-price');
+      const maxPriceInput = document.getElementById('max-price');
+      const applyPriceFilterBtn = document.getElementById('apply-price-filter');
+      const sortSelect = document.getElementById('sort-products');
+      const productCount = document.getElementById('product-count');
+      const paginationLinks = document.querySelectorAll('#pagination a');
+
+      // Initialize
+      displayProducts();
+      updatePaginationDisplay();
+      
+      // Initialize currency from localStorage
+      document.addEventListener('DOMContentLoaded', function() {
+        // Set the currency dropdown to the saved value if available
+        const currencySelect = document.getElementById('currency-select');
+        if (currencySelect) {
+          const savedCurrency = localStorage.getItem('shophub_currency');
+          if (savedCurrency) {
+            currencySelect.value = savedCurrency;
+          }
+        }
+      });
+
+      // Pagination click events
+      paginationLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const page = this.getAttribute('data-page');
+          
+          if (page === 'prev') {
+            if (filters.currentPage > 1) {
+              filters.currentPage--;
+            }
+          } else if (page === 'next') {
+            const totalPages = Math.ceil(getFilteredProducts().length / filters.itemsPerPage);
+            if (filters.currentPage < totalPages) {
+              filters.currentPage++;
+            }
+          } else {
+            filters.currentPage = parseInt(page);
+          }
+          
+          updatePaginationDisplay();
+          displayProducts();
+          
+          // Scroll to top of products
+          productsGrid.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+      
+      // Category filter click event
+      categoryFilters.forEach(filter => {
+        filter.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Remove active class from all filters
+          categoryFilters.forEach(f => f.classList.remove('active', 'text-blue-600', 'font-medium'));
+          
+          // Add active class to clicked filter
+          this.classList.add('active', 'text-blue-600', 'font-medium');
+          
+          // Update filter state
+          filters.category = this.getAttribute('data-category');
+          
+          // Apply filters
+          displayProducts();
+        });
+      });
+
+      // Price range slider
+      if (priceRangeSlider) {
+        priceRangeSlider.addEventListener('input', function() {
+          maxPriceInput.value = this.value;
+        });
+      }
+
+      // Min price input
+      if (minPriceInput) {
+        minPriceInput.addEventListener('change', function() {
+          if (parseInt(this.value) > parseInt(maxPriceInput.value)) {
+            this.value = maxPriceInput.value;
+          }
+        });
+      }
+
+      // Max price input
+      if (maxPriceInput) {
+        maxPriceInput.addEventListener('change', function() {
+          if (parseInt(this.value) < parseInt(minPriceInput.value)) {
+            this.value = minPriceInput.value;
+          }
+          priceRangeSlider.value = this.value;
+        });
+      }
+
+      // Apply price filter
+      if (applyPriceFilterBtn) {
+        applyPriceFilterBtn.addEventListener('click', function() {
+          filters.minPrice = parseInt(minPriceInput.value);
+          filters.maxPrice = parseInt(maxPriceInput.value);
+          displayProducts();
+        });
+      }
+
+      // Sort select
+      if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+          filters.sortBy = this.value;
+          displayProducts();
+        });
+      }
+
+      // Display products based on current filters
+      function displayProducts() {
+        // Clear products grid
+        productsGrid.innerHTML = '';
+        
+        // Get filtered products
+        let filteredProducts = getFilteredProducts();
+        
+        // Calculate pagination
+        const startIndex = (filters.currentPage - 1) * filters.itemsPerPage;
+        const endIndex = startIndex + filters.itemsPerPage;
+        const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+        
+        // Update product count
+        const totalProducts = filteredProducts.length;
+        const showing = Math.min(endIndex, totalProducts) - startIndex;
+        productCount.textContent = `Showing ${showing} of ${totalProducts} products`;
+        
+        // Generate product cards
+        paginatedProducts.forEach(product => {
+          const productCard = document.createElement('div');
+          productCard.className = 'card overflow-hidden transform transition-all duration-300 hover:-translate-y-1';
+          
+          // Product badge
+          let badge = '';
+          if (product.oldPrice) {
+            const discountPercent = Math.round((1 - product.price / product.oldPrice) * 100);
+            badge = `
+              <div class="absolute top-2 left-2 flex flex-col gap-1">
+                <span class="bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded">-${discountPercent}%</span>
+              </div>
+            `;
+          }
+          
+          // Product HTML
+          productCard.innerHTML = `
+            <div class="relative aspect-square overflow-hidden bg-gray-100">
+              <img
+                src="${product.image}"
+                alt="${product.name}"
+                class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+              >
+              ${badge}
+            </div>
+            <div class="p-4">
+              <h3 class="text-sm md:text-base font-medium text-gray-900 mb-1">${product.name}</h3>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="font-semibold text-gray-900">${formatCurrency(product.price)}</span>
+                ${product.oldPrice ? `<span class="text-sm text-gray-500 line-through">${formatCurrency(product.oldPrice)}</span>` : ''}
+              </div>
+              <div class="flex items-center text-sm text-gray-600">
+                <div class="flex items-center text-yellow-500 mr-1">
+                  <i class="fas fa-star"></i>
+                  <span class="ml-1">${product.rating}</span>
+                </div>
+                <span>(${product.reviews} reviews)</span>
+              </div>
+            </div>
+          `;
+          
+          // Add click event to show product modal
+          productCard.addEventListener('click', function() {
+            showProductModal(product.id);
+          });
+          
+          productsGrid.appendChild(productCard);
+        });
+      }
+
+      // Get filtered products without pagination
+      function getFilteredProducts() {
+        // Filter products
+        let filteredProducts = products.filter(product => {
+          // Category filter
+          if (filters.category !== 'all' && product.category !== filters.category) {
+            return false;
+          }
+          
+          // Price filter
+          if (product.price < filters.minPrice || product.price > filters.maxPrice) {
+            return false;
+          }
+          
+          // Search query filter
+          if (filters.searchQuery && filters.searchQuery.trim() !== '') {
+            const query = filters.searchQuery.toLowerCase();
+            const nameMatch = product.name.toLowerCase().includes(query);
+            const categoryMatch = product.category.toLowerCase().includes(query);
+            const descriptionMatch = product.description.toLowerCase().includes(query);
+            
+            if (!nameMatch && !categoryMatch && !descriptionMatch) {
+              return false;
+            }
+          }
+          
+          return true;
+        });
+        
+        // Sort products
+        switch (filters.sortBy) {
+          case 'price-low':
+            filteredProducts.sort((a, b) => a.price - b.price);
+            break;
+          case 'price-high':
+            filteredProducts.sort((a, b) => b.price - a.price);
+            break;
+          case 'rating':
+            filteredProducts.sort((a, b) => b.rating - a.rating);
+            break;
+          case 'newest':
+            filteredProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            break;
+          // default sort remains as is
+        }
+        
+        return filteredProducts;
+      }
+      
+      // Format currency with proper symbol and conversion
+      function formatCurrency(amount, currencyCode = null) {
+        // Get the selected currency from localStorage or use USD as default
+        const selectedCurrency = currencyCode || localStorage.getItem('shophub_currency') || 'USD';
+        
+        // Define exchange rates relative to USD (1 USD = X units of currency)
+        const exchangeRates = {
+          USD: 1,
+          EUR: 0.91,  // 1 USD = 0.91 EUR
+          GBP: 0.78,  // 1 USD = 0.78 GBP
+          JPY: 149.5, // 1 USD = 149.5 JPY
+          CAD: 1.37,  // 1 USD = 1.37 CAD
+          AUD: 1.52,  // 1 USD = 1.52 AUD
+          INR: 83.25  // 1 USD = 83.25 INR
+        };
+        
+        // Currency symbols
+        const currencySymbols = {
+          USD: '$',
+          EUR: '€',
+          GBP: '£',
+          JPY: '¥',
+          CAD: 'CA$',
+          AUD: 'A$',
+          INR: '₹'
+        };
+        
+        // Convert amount to selected currency
+        const convertedAmount = parseFloat(amount) * exchangeRates[selectedCurrency];
+        
+        // Format the amount based on currency
+        let formattedAmount;
+        if (selectedCurrency === 'JPY' || selectedCurrency === 'INR') {
+          // No decimal places for JPY and INR
+          formattedAmount = Math.round(convertedAmount);
+        } else {
+          formattedAmount = convertedAmount.toFixed(2);
+        }
+        
+        // Return formatted string with currency symbol
+        return currencySymbols[selectedCurrency] + formattedAmount;
+      }
+      
+      // Update pagination display
+      function updatePaginationDisplay() {
+        const totalProducts = getFilteredProducts().length;
+        const totalPages = Math.ceil(totalProducts / filters.itemsPerPage);
+        
+        // Update pagination links
+        paginationLinks.forEach(link => {
+          const page = link.getAttribute('data-page');
+          
+          // Reset all links
+          link.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+          link.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+          
+          // Handle prev/next buttons
+          if (page === 'prev') {
+            if (filters.currentPage === 1) {
+              link.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+              link.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+          } else if (page === 'next') {
+            if (filters.currentPage >= totalPages) {
+              link.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+              link.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+          } else {
+            // Handle number buttons
+            const pageNum = parseInt(page);
+            
+            // Hide pages that don't exist
+            if (pageNum > totalPages) {
+              link.classList.add('hidden');
+            } else {
+              link.classList.remove('hidden');
+              
+              // Highlight current page
+              if (pageNum === filters.currentPage) {
+                link.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+                link.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+              }
+            }
+          }
+        });
+      }
+
+      // Show product modal function
+      function showProductModal(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        
+        // Set modal content
+        const modalProductImage = document.getElementById('modal-product-image');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductRating = document.getElementById('modal-product-rating');
+        const modalProductReviews = document.getElementById('modal-product-reviews');
+        const modalProductPrice = document.getElementById('modal-product-price');
+        const modalProductOldPrice = document.getElementById('modal-product-old-price');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const productQuantity = document.getElementById('product-quantity');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        
+        modalProductImage.src = product.image;
+        modalProductImage.alt = product.name;
+        modalProductName.textContent = product.name;
+        modalProductRating.textContent = product.rating;
+        modalProductReviews.textContent = `(${product.reviews} reviews)`;
+        modalProductPrice.textContent = formatCurrency(product.price);
+        
+        if (product.oldPrice) {
+          modalProductOldPrice.textContent = formatCurrency(product.oldPrice);
+          modalProductOldPrice.classList.remove('hidden');
+        } else {
+          modalProductOldPrice.classList.add('hidden');
+        }
+        
+        modalProductDescription.textContent = product.description;
+        productQuantity.value = 1;
+        addToCartBtn.setAttribute('data-product-id', productId);
+        
+        // Show modal
+        const productModal = document.getElementById('product-modal');
+        productModal.classList.remove('hidden');
+      }
+      
+      // Shopping cart
+      let cart = [];
+      
+      // Modal close button
+      const closeProduct = document.getElementById('close-product');
+      if (closeProduct) {
+        closeProduct.addEventListener('click', function() {
+          const productModal = document.getElementById('product-modal');
+          productModal.classList.add('hidden');
+        });
+      }
+      
+      // Modal click outside
+      const productModal = document.getElementById('product-modal');
+      if (productModal) {
+        productModal.addEventListener('click', function(e) {
+          if (e.target === productModal) {
+            productModal.classList.add('hidden');
+          }
+        });
+      }
+      
+      // Quantity controls
+      const decreaseQuantity = document.getElementById('decrease-quantity');
+      const increaseQuantity = document.getElementById('increase-quantity');
+      const productQuantity = document.getElementById('product-quantity');
+      
+      if (decreaseQuantity) {
+        decreaseQuantity.addEventListener('click', function() {
+          let value = parseInt(productQuantity.value);
+          if (value > 1) {
+            productQuantity.value = value - 1;
+          }
+        });
+      }
+      
+      if (increaseQuantity) {
+        increaseQuantity.addEventListener('click', function() {
+          let value = parseInt(productQuantity.value);
+          productQuantity.value = value + 1;
+        });
+      }
+      
+      // Add to cart button
+      const addToCartBtn = document.getElementById('add-to-cart-btn');
+      if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', function() {
+          const productId = parseInt(this.getAttribute('data-product-id'));
+          const quantity = parseInt(productQuantity.value);
+          
+          addToCart(productId, quantity);
+          productModal.classList.add('hidden');
+          
+          // Show cart
+          showCart();
+        });
+      }
+      
+      // Cart buttons
+      const cartButton = document.querySelector('.fa-shopping-cart').parentElement;
+      const cartCount = cartButton.querySelector('span');
+      const cartSidebar = document.getElementById('cart-sidebar');
+      const closeCart = document.getElementById('close-cart');
+      const cartItems = document.getElementById('cart-items');
+      const cartSubtotal = document.getElementById('cart-subtotal');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      const continueShopping = document.getElementById('continue-shopping');
+      const cartOverlay = document.getElementById('cart-overlay');
+      
+      // Cart button click
+      if (cartButton) {
+        cartButton.addEventListener('click', function() {
+          showCart();
+        });
+      }
+      
+      // Close cart
+      if (closeCart) {
+        closeCart.addEventListener('click', function() {
+          hideCart();
+        });
+      }
+      
+      // Continue shopping button
+      if (continueShopping) {
+        continueShopping.addEventListener('click', function() {
+          hideCart();
+        });
+      }
+      
+      // Cart overlay click
+      if (cartOverlay) {
+        cartOverlay.addEventListener('click', function() {
+          hideCart();
+        });
+      }
+      
+      // Checkout button
+      if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function() {
+          if (cart.length === 0) {
+            alert('Your cart is empty. Please add items before checkout.');
+          } else {
+            // Save cart data to localStorage for the checkout page
+            localStorage.setItem('shophub_cart', JSON.stringify(cart));
+            // Redirect to checkout page
+            window.location.href = 'E:\\Project Ecommerce\\checkout.html';
+          }
+        });
+      }
+      
+      // Add to cart function
+      function addToCart(productId, quantity) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        
+        // Check if product is already in cart
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: quantity
+          });
+        }
+        
+        updateCartDisplay();
+      }
+      
+      // Update cart display
+      function updateCartDisplay() {
+        // Update cart count
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        cartCount.textContent = totalItems;
+        
+        // Update cart items
+        cartItems.innerHTML = '';
+        
+        if (cart.length === 0) {
+          cartItems.innerHTML = '<div class="text-center py-8"><p class="text-gray-500">Your cart is empty</p></div>';
+          cartSubtotal.textContent = '$0.00';
+          return;
+        }
+        
+        let subtotal = 0;
+        
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          subtotal += itemTotal;
+          
+          const cartItem = document.createElement('div');
+          cartItem.className = 'flex items-start border-b border-gray-200 pb-4 mb-4';
+          cartItem.innerHTML = `
+            <div class="w-20 h-20 flex-shrink-0 overflow-hidden rounded bg-gray-100 mr-4">
+              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-grow">
+              <h3 class="font-medium text-gray-900">${item.name}</h3>
+              <div class="flex justify-between mt-1">
+                <div class="text-gray-500">
+                  <span>${formatCurrency(item.price)}</span>
+                  <span class="mx-1">×</span>
+                  <span>${item.quantity}</span>
+                </div>
+                <div class="font-medium">${formatCurrency(itemTotal)}</div>
+              </div>
+              <div class="flex items-center mt-2">
+                <button class="text-gray-500 hover:text-gray-700 decrease-cart-item" data-id="${item.id}">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <span class="mx-2">${item.quantity}</span>
+                <button class="text-gray-500 hover:text-gray-700 increase-cart-item" data-id="${item.id}">
+                  <i class="fas fa-plus"></i>
+                </button>
+                <button class="ml-auto text-red-500 hover:text-red-700 remove-cart-item" data-id="${item.id}">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+          
+          cartItems.appendChild(cartItem);
+        });
+        
+        // Add event listeners to cart item buttons
+        document.querySelectorAll('.decrease-cart-item').forEach(button => {
+          button.addEventListener('click', function() {
+            const id = parseInt(this.getAttribute('data-id'));
+            decreaseCartItem(id);
+          });
+        });
+        
+        document.querySelectorAll('.increase-cart-item').forEach(button => {
+          button.addEventListener('click', function() {
+            const id = parseInt(this.getAttribute('data-id'));
+            increaseCartItem(id);
+          });
+        });
+        
+        document.querySelectorAll('.remove-cart-item').forEach(button => {
+          button.addEventListener('click', function() {
+            const id = parseInt(this.getAttribute('data-id'));
+            removeCartItem(id);
+          });
+        });
+        
+        cartSubtotal.textContent = formatCurrency(subtotal);
+      }
+      
+      // Cart item operations
+      function decreaseCartItem(id) {
+        const item = cart.find(item => item.id === id);
+        if (item) {
+          if (item.quantity > 1) {
+            item.quantity--;
+          } else {
+            removeCartItem(id);
+            return;
+          }
+          updateCartDisplay();
+        }
+      }
+      
+      function increaseCartItem(id) {
+        const item = cart.find(item => item.id === id);
+        if (item) {
+          item.quantity++;
+          updateCartDisplay();
+        }
+      }
+      
+      function removeCartItem(id) {
+        cart = cart.filter(item => item.id !== id);
+        updateCartDisplay();
+      }
+      
+      // Show/hide cart
+      function showCart() {
+        cartSidebar.classList.remove('translate-x-full');
+        cartOverlay.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+      
+      function hideCart() {
+        cartSidebar.classList.add('translate-x-full');
+        cartOverlay.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+
+      // Search functionality
+      const searchButton = document.getElementById('search-button');
+      const searchOverlay = document.getElementById('search-overlay');
+      const closeSearch = document.getElementById('close-search');
+      const searchForm = document.getElementById('search-form');
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      
+      // Toggle search overlay
+      if (searchButton) {
+        searchButton.addEventListener('click', function() {
+          searchOverlay.classList.remove('hidden');
+          setTimeout(() => {
+            searchInput.focus();
+          }, 100);
+        });
+      }
+      
+      if (closeSearch) {
+        closeSearch.addEventListener('click', function() {
+          searchOverlay.classList.add('hidden');
+        });
+      }
+      
+      // Close search when clicking outside
+      searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) {
+          searchOverlay.classList.add('hidden');
+        }
+      });
+      
+      // Handle search
+      if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const query = searchInput.value.trim();
+          if (query.length < 2) {
+            return;
+          }
+          
+          // Close the search overlay
+          searchOverlay.classList.add('hidden');
+          
+          // Update URL and reload page with search query
+          window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+        });
+        
+        // Search as you type
+        searchInput.addEventListener('input', debounce(performSearch, 300));
+      }
+      
+      function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        searchResults.innerHTML = '';
+        
+        if (query.length < 2) {
+          searchResults.innerHTML = '<p class="text-gray-500 text-center py-4">Please enter at least 2 characters to search</p>';
+          return;
+        }
+        
+        // Filter products based on search query
+        const results = products.filter(product => 
+          product.name.toLowerCase().includes(query) || 
+          product.category.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query)
+        );
+        
+        if (results.length === 0) {
+          searchResults.innerHTML = '<p class="text-gray-500 text-center py-4">No products found matching your search</p>';
+          return;
+        }
+        
+        // Display up to 5 quick results
+        const maxResults = Math.min(5, results.length);
+        for (let i = 0; i < maxResults; i++) {
+          const product = results[i];
+          const productEl = document.createElement('div');
+          productEl.className = 'border-b border-gray-200 p-3 hover:bg-gray-50 cursor-pointer';
+          productEl.innerHTML = `
+            <div class="flex justify-between items-center">
+              <div>
+                <h4 class="font-medium">${product.name}</h4>
+                <p class="text-gray-600 text-sm">${product.category}</p>
+              </div>
+              <div class="font-semibold">$${product.price.toFixed(2)}</div>
+            </div>
+          `;
+          
+          productEl.addEventListener('click', function() {
+            showProductModal(product.id);
+            searchOverlay.classList.add('hidden');
+          });
+          
+          searchResults.appendChild(productEl);
+        }
+        
+        // Add "See all results" button if there are more than 5 results
+        if (results.length > 5) {
+          const seeAllButton = document.createElement('div');
+          seeAllButton.className = 'p-3 text-center text-blue-600 hover:underline cursor-pointer font-medium';
+          seeAllButton.textContent = `See all ${results.length} results`;
+          
+          seeAllButton.addEventListener('click', function() {
+            window.location.href = `shop.html?search=${encodeURIComponent(searchInput.value.trim())}`;
+          });
+          
+          searchResults.appendChild(seeAllButton);
+        }
+      }
+      
+      // Utility function to debounce search input
+      function debounce(func, delay) {
+        let timeout;
+        return function() {
+          const context = this;
+          const args = arguments;
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+      }
+    });
+  </script>
+</body>
+</html> 

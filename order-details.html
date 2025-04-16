@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details - ShopHub E-Commerce</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #10b981;
+      --accent-color: #f59e0b;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .container-custom {
+      max-width: 80rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container-custom {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .container-custom {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .order-card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .order-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .order-status {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .status-processing {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    .status-shipped {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+    .status-delivered {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md py-4">
+    <div class="container-custom">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="text-2xl font-bold text-blue-600">
+          ShopHub
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="index.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Home</a>
+          <a href="shop.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Shop</a>
+          <a href="categories.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Categories</a>
+          <a href="about.html" class="font-medium text-gray-500 hover:text-blue-600 transition">About</a>
+          <a href="contact.html" class="font-medium text-gray-500 hover:text-blue-600 transition">Contact</a>
+        </nav>
+        
+        <!-- User Actions -->
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-500 hover:text-blue-600 transition" id="search-button">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+          <a href="account.html" class="p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-user text-xl"></i>
+          </a>
+          <button class="md:hidden p-2 text-gray-500 hover:text-blue-600 transition">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="animate-fade-in py-12">
+    <div class="container-custom">
+      <div class="flex items-center justify-between mb-8">
+        <h1 class="text-3xl font-bold">Order Details</h1>
+        <a href="index.html" class="text-blue-600 hover:underline flex items-center">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Back to Home
+        </a>
+      </div>
+      
+      <div id="order-not-found" class="hidden">
+        <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-8">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="fas fa-exclamation-circle text-red-400"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-red-700">
+                Order information not found. Please return to the shop and complete your purchase.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="shop.html" class="btn-primary inline-block">
+            Continue Shopping
+          </a>
+        </div>
+      </div>
+      
+      <div id="order-details" class="lg:flex lg:gap-8">
+        <!-- Order Information -->
+        <div class="lg:w-2/3">
+          <!-- Order Summary Card -->
+          <div class="order-card">
+            <div class="order-card-header flex justify-between">
+              <div>
+                <h2 class="text-xl font-semibold">Order #<span id="order-number"></span></h2>
+                <p class="text-gray-500"><span id="order-date"></span></p>
+              </div>
+              <div>
+                <span class="order-status status-processing" id="order-status">Processing</span>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h3 class="font-semibold text-gray-700 mb-3">Estimated Delivery</h3>
+              <p class="text-gray-600" id="delivery-date">In 3-5 business days</p>
+            </div>
+            
+            <!-- Order Items -->
+            <h3 class="font-semibold text-gray-700 mb-3">Order Items</h3>
+            <div id="order-items" class="space-y-4 mb-6">
+              <!-- Will be filled with JS -->
+            </div>
+          </div>
+          
+          <!-- Shipping Information -->
+          <div class="order-card">
+            <h3 class="font-semibold text-gray-700 mb-4">Shipping Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Full Name</p>
+                <p class="font-medium" id="shipping-name"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Email</p>
+                <p class="font-medium" id="shipping-email"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Phone</p>
+                <p class="font-medium" id="shipping-phone"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Address</p>
+                <p class="font-medium" id="shipping-address"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">City</p>
+                <p class="font-medium" id="shipping-city"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Postal Code</p>
+                <p class="font-medium" id="shipping-postal"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">State/Province</p>
+                <p class="font-medium" id="shipping-state"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Country</p>
+                <p class="font-medium" id="shipping-country"></p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Payment Information -->
+          <div class="order-card">
+            <h3 class="font-semibold text-gray-700 mb-4">Payment Information</h3>
+            <div class="mb-4">
+              <p class="text-sm text-gray-500 mb-1">Payment Method</p>
+              <p class="font-medium" id="payment-method"></p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+              <h4 class="font-medium mb-2">Order Summary</h4>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Subtotal</span>
+                  <span id="summary-subtotal">$0.00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Shipping</span>
+                  <span id="summary-shipping">$0.00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Tax</span>
+                  <span id="summary-tax">$0.00</span>
+                </div>
+                <div class="flex justify-between pt-2 border-t border-gray-200 font-medium">
+                  <span>Total</span>
+                  <span id="summary-total">$0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Order Actions Sidebar -->
+        <div class="lg:w-1/3 mt-6 lg:mt-0">
+          <div class="sticky top-24">
+            <div class="order-card">
+              <h3 class="font-semibold text-gray-700 mb-4">Order Actions</h3>
+              <div class="space-y-3">
+                <button class="btn-primary w-full py-2" id="track-order-btn">
+                  <i class="fas fa-truck mr-2"></i> Track Order
+                </button>
+                <button class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 rounded-lg hover:bg-gray-50 transition" id="download-invoice-btn">
+                  <i class="fas fa-file-invoice mr-2"></i> Download Invoice
+                </button>
+                <button class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 rounded-lg hover:bg-gray-50 transition" id="contact-support-btn">
+                  <i class="fas fa-headset mr-2"></i> Contact Support
+                </button>
+              </div>
+            </div>
+            
+            <div class="order-card mt-4">
+              <h3 class="font-semibold text-gray-700 mb-4">Need Help?</h3>
+              <p class="text-gray-600 mb-4">
+                If you have any questions or concerns about your order, our customer support team is here to help.
+              </p>
+              <div class="space-y-3">
+                <a href="tel:+918726540777" class="flex items-center text-gray-700 hover:text-blue-600 transition">
+                  <i class="fas fa-phone-alt mr-3"></i>
+                  <span>+91 8726540777</span>
+                </a>
+                <a href="mailto:support@shophub.com" class="flex items-center text-gray-700 hover:text-blue-600 transition">
+                  <i class="fas fa-envelope mr-3"></i>
+                  <span>support@shophub.com</span>
+                </a>
+                <div class="flex items-center text-gray-700">
+                  <i class="fas fa-clock mr-3"></i>
+                  <span>24/7 Customer Support</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8 mt-16">
+    <div class="container-custom">
+      <!-- Footer Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <!-- Company Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">ShopHub</h3>
+          <p class="text-gray-400 mb-4">
+            Your one-stop destination for all your shopping needs. Quality products, competitive prices, and exceptional service.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="shop.html" class="text-gray-400 hover:text-white transition">Shop</a></li>
+            <li><a href="categories.html" class="text-gray-400 hover:text-white transition">Categories</a></li>
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+            <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Customer Service -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Customer Service</h3>
+          <ul class="space-y-2">
+            <li><a href="account.html" class="text-gray-400 hover:text-white transition">My Account</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Orders & Returns</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Support Center</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
+              <span class="text-gray-400">F-3, Mandelia Road, Kamla Nagar, New Delhi 110007</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-3 text-gray-400"></i>
+              <span class="text-gray-400">+91 8726540777</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-gray-400"></i>
+              <span class="text-gray-400">support@shophub.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="text-center text-gray-500 text-sm pt-8 border-t border-gray-800">
+        <p>&copy; 2023 ShopHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load order data from localStorage
+      let orderData = null;
+      try {
+        const savedOrder = localStorage.getItem('shophub_order');
+        if (savedOrder) {
+          orderData = JSON.parse(savedOrder);
+        }
+      } catch (error) {
+        console.error('Error loading order data:', error);
+      }
+      
+      // Show order not found message if no order data
+      if (!orderData) {
+        document.getElementById('order-details').classList.add('hidden');
+        document.getElementById('order-not-found').classList.remove('hidden');
+        return;
+      }
+      
+      // Format date
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+      
+      // Format currency
+      function formatCurrency(amount) {
+        return '$' + parseFloat(amount).toFixed(2);
+      }
+      
+      // Fill order details
+      document.getElementById('order-number').textContent = orderData.orderNumber;
+      document.getElementById('order-date').textContent = formatDate(orderData.orderDate);
+      
+      // Calculate delivery date (3-5 business days from order date)
+      const orderDate = new Date(orderData.orderDate);
+      const deliveryDate = new Date(orderDate);
+      deliveryDate.setDate(deliveryDate.getDate() + 5); // Add 5 days as max estimate
+      document.getElementById('delivery-date').textContent = 
+        `Estimated delivery by ${deliveryDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`;
+      
+      // Fill shipping details
+      document.getElementById('shipping-name').textContent = 
+        `${orderData.shipping.firstName} ${orderData.shipping.lastName}`;
+      document.getElementById('shipping-email').textContent = orderData.shipping.email;
+      document.getElementById('shipping-phone').textContent = orderData.shipping.phone;
+      document.getElementById('shipping-address').textContent = orderData.shipping.address;
+      document.getElementById('shipping-city').textContent = orderData.shipping.city;
+      document.getElementById('shipping-postal').textContent = orderData.shipping.postalCode;
+      document.getElementById('shipping-state').textContent = orderData.shipping.state;
+      document.getElementById('shipping-country').textContent = orderData.shipping.country;
+      
+      // Format payment method
+      const paymentMethodNames = {
+        'credit-card': 'Credit Card',
+        'paypal': 'PayPal',
+        'bank-transfer': 'Bank Transfer'
+      };
+      document.getElementById('payment-method').textContent = 
+        paymentMethodNames[orderData.payment.method] || orderData.payment.method;
+      
+      // Fill order summary
+      document.getElementById('summary-subtotal').textContent = formatCurrency(orderData.totals.subtotal);
+      document.getElementById('summary-shipping').textContent = formatCurrency(orderData.totals.shipping);
+      document.getElementById('summary-tax').textContent = formatCurrency(orderData.totals.tax);
+      document.getElementById('summary-total').textContent = formatCurrency(orderData.totals.total);
+      
+      // Render order items
+      const orderItemsContainer = document.getElementById('order-items');
+      orderData.items.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'flex items-start border-b border-gray-100 pb-4';
+        
+        const itemTotal = item.price * item.quantity;
+        
+        itemElement.innerHTML = `
+          <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded bg-gray-100 mr-4">
+            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-grow">
+            <h4 class="font-medium text-gray-900">${item.name}</h4>
+            <div class="flex justify-between mt-1">
+              <div class="text-gray-500">
+                <span>${formatCurrency(item.price)}</span>
+                <span class="mx-1">×</span>
+                <span>${item.quantity}</span>
+              </div>
+              <div class="font-medium">${formatCurrency(itemTotal)}</div>
+            </div>
+          </div>
+        `;
+        
+        orderItemsContainer.appendChild(itemElement);
+      });
+      
+      // Track order button
+      const trackOrderBtn = document.getElementById('track-order-btn');
+      if (trackOrderBtn) {
+        trackOrderBtn.addEventListener('click', function() {
+          alert('Tracking functionality would be integrated with a shipping provider API. This is a demo message showing order status: PROCESSING');
+        });
+      }
+      
+      // Download invoice button
+      const downloadInvoiceBtn = document.getElementById('download-invoice-btn');
+      if (downloadInvoiceBtn) {
+        downloadInvoiceBtn.addEventListener('click', function() {
+          alert('Invoice download functionality would be implemented here. In a real application, this would generate a PDF invoice.');
+        });
+      }
+      
+      // Contact support button
+      const contactSupportBtn = document.getElementById('contact-support-btn');
+      if (contactSupportBtn) {
+        contactSupportBtn.addEventListener('click', function() {
+          window.location.href = 'mailto:support@shophub.com?subject=Support Request for Order ' + orderData.orderNumber;
+        });
+      }
+    });
+  </script>
+</body>
+</html> 
